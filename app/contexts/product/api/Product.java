@@ -2,13 +2,16 @@ package contexts.product.api;
 
 public class Product {
 
-    public Product(Integer id,
-                   String sku,
-                   String name,
-                   String richContent) {
+    public Product(
+            Integer id,
+            String imgUrl,
+            String name,
+            String description,
+            String richContent) {
         this.id = id;
-        this.sku = sku;
+        this.imgUrl = imgUrl;
         this.name = name;
+        this.description = description;
         this.richContent = richContent;
     }
 
@@ -16,12 +19,14 @@ public class Product {
         return id;
     }
 
-    public String getSku() {
-        return sku;
-    }
+    public String getImgUrl() { return imgUrl; }
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getRichContent() {
@@ -29,8 +34,9 @@ public class Product {
     }
 
     private Integer id;
-    private String sku;
+    private String imgUrl;
     private String name;
+    private String description;
     private String richContent;
 
 }
