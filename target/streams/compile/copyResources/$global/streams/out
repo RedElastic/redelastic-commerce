@@ -1,0 +1,7 @@
+[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/application.conf,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/application.conf)[0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/evolutions,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/evolutions)[0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/logback.xml,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/logback.xml)[0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/routes,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/routes)[0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/evolutions/default,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/evolutions/default)[0m
+[0m[[0mdebug[0m] [0m	(/Users/kevin/Development/reactive-commerce/conf/evolutions/default/1.sql,/Users/kevin/Development/reactive-commerce/target/scala-2.11/classes/evolutions/default/1.sql)[0m
