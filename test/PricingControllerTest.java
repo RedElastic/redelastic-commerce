@@ -17,13 +17,7 @@ import java.util.Arrays;
 
 import static play.test.Helpers.*;
 
-public class ApplicationTest extends WithApplication {
-
-    @Test
-    public void simpleCheck() {
-        int a = 1 + 1;
-        assertEquals(2, a);
-    }
+public class PricingControllerTest extends WithApplication {
 
     @Override
     protected Application provideApplication() {
