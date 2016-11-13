@@ -4,6 +4,7 @@ public class Product {
 
     public Product(
             Integer id,
+            String sku,
             String imgUrl,
             String name,
             String description,
@@ -18,6 +19,8 @@ public class Product {
     public Integer getId() {
         return id;
     }
+
+    public String getSku() { return sku; }
 
     public String getImgUrl() { return imgUrl; }
 
@@ -34,6 +37,7 @@ public class Product {
     }
 
     private Integer id;
+    private String sku;
     private String imgUrl;
     private String name;
     private String description;
