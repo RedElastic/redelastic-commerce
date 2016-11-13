@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
+import contexts.monitoring.api.MonitoringService;
+import contexts.monitoring.stub.MonitoringServiceStub;
 import contexts.product.api.ProductService;
 import contexts.product.stub.ProductServiceStub;
 import services.ApplicationTimer;
@@ -30,6 +32,8 @@ public class Module extends AbstractModule {
         bind(Counter.class).to(AtomicCounter.class);
         // Set ProductService to stub mode
         bind(ProductService.class).to(ProductServiceStub.class);
+        // Set MonitorService to stub mode
+        bind(MonitoringService.class).to(MonitoringServiceStub.class);
     }
 
 }

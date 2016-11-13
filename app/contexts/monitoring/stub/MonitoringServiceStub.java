@@ -1,10 +1,12 @@
-package contexts.product.stub;
+package contexts.monitoring.stub;
+
+import contexts.monitoring.api.MonitoringService;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MonitoringServiceStub {
+public class MonitoringServiceStub implements MonitoringService {
     private Map<String, AtomicInteger> responseCountMetrics = new HashMap<>();
 
     public void incrementResponseCode(int code) {

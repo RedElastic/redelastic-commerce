@@ -1,4 +1,4 @@
-package contexts.product.api;
+package contexts.monitoring.api;
 
 public interface MonitoringService {
     public void incrementResponseCode(int code);
