@@ -9,10 +9,12 @@ public class ProductServiceLive implements ProductService {
 
     @Override
     public List<Product> lookupProducts() {
-        return null;
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    public List<Product> topProducts() { return null; }
+    public List<Product> topProducts() {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
 }

@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
-  evolutions
+  evolutions,
+  "io.javaslang" % "javaslang" % "2.0.3"
 )
 
 routesGenerator := InjectedRoutesGenerator

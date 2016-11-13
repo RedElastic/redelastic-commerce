@@ -3,6 +3,8 @@ import java.time.Clock;
 
 import contexts.monitoring.api.MonitoringService;
 import contexts.monitoring.stub.MonitoringServiceStub;
+import contexts.pricing.api.PricingService;
+import contexts.pricing.stub.PricingServiceStub;
 import contexts.product.api.ProductService;
 import contexts.product.stub.ProductServiceStub;
 import services.ApplicationTimer;
@@ -25,14 +27,14 @@ public class Module extends AbstractModule {
     public void configure() {
         // Use the system clock as the default implementation of Clock
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
-        // Ask Guice to create an instance of ApplicationTimer when the
-        // application starts.
+        // Ask Guice to create an instance of ApplicationTimer when the application starts
         bind(ApplicationTimer.class).asEagerSingleton();
-        // Set AtomicCounter as the implementation for Counter.
+        // Set AtomicCounter as the implementation for Counter
         bind(Counter.class).to(AtomicCounter.class);
-        // Set ProductService to stub mode
+
+        // Bind all services to stubs for testing
         bind(ProductService.class).to(ProductServiceStub.class);
-        // Set MonitorService to stub mode
+        bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
     }
 
