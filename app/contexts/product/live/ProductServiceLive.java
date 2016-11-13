@@ -16,5 +16,4 @@ public class ProductServiceLive implements ProductService {
     public List<Product> topProducts() {
         throw new UnsupportedOperationException("not yet implemented");
     }
-
 }

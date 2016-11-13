@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
+import play.libs.akka.AkkaGuiceSupport;
+
 import contexts.monitoring.api.MonitoringService;
 import contexts.monitoring.stub.MonitoringServiceStub;
 import contexts.pricing.api.PricingService;
@@ -21,7 +23,7 @@ import services.Counter;
  * adding `play.modules.enabled` settings to the `application.conf`
  * configuration file.
  */
-public class Module extends AbstractModule {
+public class Module extends AbstractModule implements AkkaGuiceSupport {
 
     @Override
     public void configure() {
@@ -36,6 +38,8 @@ public class Module extends AbstractModule {
         bind(ProductService.class).to(ProductServiceStub.class);
         bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
+
+//        bindActorFactory(WebSocketActor.class, WebSocketActor.Factory.class);
     }
 
 }

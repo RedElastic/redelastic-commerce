@@ -10,8 +10,8 @@ public class Price {
     public int getDollars() { return dollars; }
     public int getCents() { return cents; }
 
-    private int dollars;
-    private int cents;
+    private final int dollars;
+    private final int cents;
 
     public boolean equals(Price price) {
         return this.dollars == price.dollars && this.cents == price.cents;

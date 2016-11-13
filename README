@@ -47,3 +47,13 @@ Filters
 - ExampleFilter.java
 
   A simple filter that adds a header to every response.
+
+Running the Application
+=======================
+
+Prior to running the application, you will need to have a Postgres instance running.
+If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/)
+
+After you have Postgres running, you can execute `sbt run` or `activator run`
+
+
