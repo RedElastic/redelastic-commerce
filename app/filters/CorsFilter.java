@@ -9,12 +9,12 @@ import play.mvc.*;
 import play.mvc.Http.RequestHeader;
 
 @Singleton
-public class ExampleFilter extends Filter {
+public class CorsFilter extends Filter {
 
     private final Executor exec;
 
     @Inject
-    public ExampleFilter(Materializer mat, Executor exec) {
+    public CorsFilter(Materializer mat, Executor exec) {
         super(mat);
         this.exec = exec;
     }
@@ -25,7 +25,7 @@ public class ExampleFilter extends Filter {
         RequestHeader requestHeader) {
 
         return next.apply(requestHeader).thenApplyAsync(
-            result -> result.withHeader("X-ExampleFilter", "foo"),
+            result -> result.withHeader("Access-Control-Allow-Origin", "http://allowed-host.com"),
             exec
         );
     }

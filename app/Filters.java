@@ -1,10 +1,11 @@
 import javax.inject.*;
+
+import filters.ResponseCodeMonitorFilter;
 import play.*;
 import play.mvc.EssentialFilter;
 import play.http.HttpFilters;
-import play.mvc.*;
 
-import filters.ExampleFilter;
+import filters.CorsFilter;
 
 /**
  * This class configures filters that run on every request. This
@@ -19,27 +20,28 @@ import filters.ExampleFilter;
 public class Filters implements HttpFilters {
 
     private final Environment env;
-    private final EssentialFilter exampleFilter;
+    private final EssentialFilter corsFilter;
+    private final ResponseCodeMonitorFilter responseCodeMonitorFilter;
 
     /**
      * @param env Basic environment settings for the current application.
-     * @param exampleFilter A demonstration filter that adds a header to
+     * @param corsFilter A demonstration filter that adds a header to
      */
     @Inject
-    public Filters(Environment env, ExampleFilter exampleFilter) {
+    public Filters(Environment env, CorsFilter corsFilter, ResponseCodeMonitorFilter responseCodeMonitorFilter) {
         this.env = env;
-        this.exampleFilter = exampleFilter;
+        this.corsFilter = corsFilter;
+        this.responseCodeMonitorFilter = responseCodeMonitorFilter;
     }
 
     @Override
     public EssentialFilter[] filters() {
-      // Use the example filter if we're running development mode. If
-      // we're running in production or test mode then don't use any
-      // filters at all.
-      if (env.mode().equals(Mode.DEV)) {
-          return new EssentialFilter[] { exampleFilter };
+        if(env.mode().equals(Mode.PROD)){ //if in prod mode, allow response code monitoring
+            return new EssentialFilter[] { responseCodeMonitorFilter};
+        } else if (env.mode().equals(Mode.TEST)) { //If in test mode, allow CORS
+          return new EssentialFilter[] { corsFilter };
       } else {
-         return new EssentialFilter[] {};
+          return new EssentialFilter[] { };
       }
     }
 
