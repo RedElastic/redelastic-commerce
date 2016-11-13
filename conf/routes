@@ -5,5 +5,8 @@
 # An example controller showing a sample home page
 GET     /                           controllers.ProductController.index()
 
+# Get prices for a list of skus
+GET     /pricing/prices             controllers.PricingController.getPrices(skus: java.util.List[String])
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

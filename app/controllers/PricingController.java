@@ -19,14 +19,16 @@ package controllers;
 import akka.actor.ActorSystem;
 import javax.inject.*;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import contexts.pricing.api.Price;
 import contexts.pricing.api.PricingService;
-import contexts.product.api.Product;
-import contexts.product.api.ProductService;
+import javaslang.control.Option;
+import play.libs.Json;
 import play.mvc.*;
 import scala.concurrent.ExecutionContextExecutor;
-import views.html.index;
 
 import java.util.List;
+import java.util.Map;
 
 public class PricingController extends Controller {
 
@@ -39,6 +41,16 @@ public class PricingController extends Controller {
         this.actorSystem = actorSystem;
         this.ec = ec;
         this.ps = ps;
+    }
+
+    public Result getPrices(List<String> skus) {
+        Option<Map<String, Price>> maybePrices = ps.getPricesForSkus(skus);
+        if (maybePrices.isDefined()) {
+            Map<String, Price> prices = maybePrices.get();
+            return ok(Json.toJson(prices));
+        } else {
+            return ok();
+        }
     }
 
 }
