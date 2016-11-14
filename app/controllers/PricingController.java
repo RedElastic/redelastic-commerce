@@ -16,16 +16,12 @@
 
 package controllers;
 
-import akka.actor.ActorSystem;
 import javax.inject.*;
 
 import contexts.pricing.api.Price;
 import contexts.pricing.api.PricingService;
-import javaslang.control.Option;
 import play.libs.Json;
-import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.*;
-import scala.concurrent.ExecutionContextExecutor;
 
 import java.util.List;
 import java.util.Map;
@@ -34,15 +30,10 @@ import java.util.concurrent.CompletionStage;
 
 public class PricingController extends Controller {
 
-    private final ActorSystem actorSystem;
     private final PricingService ps;
 
     @Inject
-    HttpExecutionContext ec;
-
-    @Inject
-    public PricingController(ActorSystem actorSystem, PricingService ps) {
-        this.actorSystem = actorSystem;
+    public PricingController(PricingService ps) {
         this.ps = ps;
     }
 
@@ -58,6 +49,20 @@ public class PricingController extends Controller {
                 }
             }
         );
+    }
+
+    public CompletionStage<Result> getPrice(String sku) {
+        return CompletableFuture
+            .supplyAsync(() -> ps.getPriceForSku(sku))
+            .thenApply(maybePrice -> {
+                    if (maybePrice.isDefined()) {
+                        Price price = maybePrice.get();
+                        return ok(Json.toJson(price));
+                    } else {
+                        return ok();
+                    }
+                }
+            );
     }
 
 }

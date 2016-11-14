@@ -20,7 +20,7 @@ public class PricingServiceStub implements PricingService {
             Case(is("2000196120002"), new Price(99, 23)),
             Case(is("3000196120003"), new Price(2, 50)),
             Case(is("4000196120004"), new Price(4, 00)),
-            Case(is("5000196120005"), new Price(42, 42))
+            Case(is("6000196120006"), new Price(42, 42))
         );
     }
 

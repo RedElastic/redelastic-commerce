@@ -7,33 +7,12 @@ public class Product {
             String sku,
             String imgUrl,
             String name,
-            String description,
-            String richContent) {
+            String description) {
         this.id = id;
+        this.sku = sku;
         this.imgUrl = imgUrl;
         this.name = name;
         this.description = description;
-        this.richContent = richContent;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getSku() { return sku; }
-
-    public String getImgUrl() { return imgUrl; }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getRichContent() {
-        return richContent;
     }
 
     private Integer id;
@@ -41,6 +20,17 @@ public class Product {
     private String imgUrl;
     private String name;
     private String description;
-    private String richContent;
+
+    public Integer getId() {
+        return id;
+    }
+    public String getSku() { return sku; }
+    public String getImgUrl() { return imgUrl; }
+    public String getName() {
+        return name;
+    }
+    public String getDescription() {
+        return description;
+    }
 
 }
