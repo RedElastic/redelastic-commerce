@@ -1,7 +1,6 @@
 import akka.actor.ActorSystem;
 import contexts.pricing.api.PricingService;
 import controllers.PricingController;
-import org.junit.*;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
