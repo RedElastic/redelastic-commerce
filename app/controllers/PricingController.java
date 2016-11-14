@@ -19,38 +19,45 @@ package controllers;
 import akka.actor.ActorSystem;
 import javax.inject.*;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import contexts.pricing.api.Price;
 import contexts.pricing.api.PricingService;
 import javaslang.control.Option;
 import play.libs.Json;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.*;
 import scala.concurrent.ExecutionContextExecutor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 public class PricingController extends Controller {
 
     private final ActorSystem actorSystem;
-    private final ExecutionContextExecutor ec;
     private final PricingService ps;
 
     @Inject
-    public PricingController(ActorSystem actorSystem, ExecutionContextExecutor ec, PricingService ps) {
+    HttpExecutionContext ec;
+
+    @Inject
+    public PricingController(ActorSystem actorSystem, PricingService ps) {
         this.actorSystem = actorSystem;
-        this.ec = ec;
         this.ps = ps;
     }
 
-    public Result getPrices(List<String> skus) {
-        Option<Map<String, Price>> maybePrices = ps.getPricesForSkus(skus);
-        if (maybePrices.isDefined()) {
-            Map<String, Price> prices = maybePrices.get();
-            return ok(Json.toJson(prices));
-        } else {
-            return ok();
-        }
+    public CompletionStage<Result> getPrices(List<String> skus) {
+        return CompletableFuture
+            .supplyAsync(() -> ps.getPricesForSkus(skus))
+            .thenApply(maybePrices -> {
+                if (maybePrices.isDefined()) {
+                    Map<String, Price> prices = maybePrices.get();
+                    return ok(Json.toJson(prices));
+                } else {
+                    return ok();
+                }
+            }
+        );
     }
 
 }
