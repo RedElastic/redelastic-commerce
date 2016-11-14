@@ -1,17 +1,17 @@
 /**
- Copyright 2016 RedElastic Inc.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ * Copyright 2016 RedElastic Inc.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package websockets;
@@ -52,20 +52,40 @@ import java.util.concurrent.CompletionStage;
 
 public abstract class ActorBackedWebSocket {
 
+    /**
+     * TODO add description
+     *
+     * @param webSocketOut
+     * @return
+     */
     public abstract ActorRef createWebsocketActor(ActorRef webSocketOut);
 
+    /**
+     * TODO add description
+     *
+     * @param system
+     * @param materializer
+     * @return
+     */
     public play.mvc.WebSocket webSocket(ActorSystem system, Materializer materializer) {
         return play.mvc.WebSocket.Json.acceptOrResult(request -> {
-            if(sameOriginCheck(request)){
+            if (sameOriginCheck(request)) {
                 final Flow<JsonNode, JsonNode, NotUsed> flow = wsFutureFlow(system, materializer);
                 return CompletableFuture.completedFuture(F.Either.Right(flow));
-            }else {
+            } else {
                 Logger.error("Error found w/ origin header while creating websocket...");
                 return forbiddenResult();
             }
         });
     }
 
+    /**
+     * TODO add description
+     *
+     * @param system
+     * @param materializer
+     * @return
+     */
     public Flow<JsonNode, JsonNode, NotUsed> wsFutureFlow(ActorSystem system, Materializer materializer) {
         // create an actor ref source and associated publisher for sink
         final Pair<ActorRef, Publisher<JsonNode>> pair = createWebSocketConnections(materializer);
@@ -77,10 +97,10 @@ public abstract class ActorBackedWebSocket {
         return createWebSocketFlow(webSocketIn, webSocketActor, system);
     }
 
-
     /**
      * Akka Streams for websockets backed by an actor
      * We want an actor to back the stream so it can receive updates via the event bus.
+     *
      * @param webSocketIn
      * @param userActor
      * @param actorSystem
@@ -97,7 +117,7 @@ public abstract class ActorBackedWebSocket {
         return flow.watchTermination((ignore, termination) -> {
             termination.whenComplete((done, throwable) -> {
                 Logger.info("terminating websocket actor!");
-                if(throwable != null) throwable.printStackTrace();
+                if (throwable != null) throwable.printStackTrace();
                 actorSystem.stop(userActor);
             });
 
@@ -105,9 +125,13 @@ public abstract class ActorBackedWebSocket {
         });
     }
 
+    /**
+     * Creates a source to be materialized as an actor reference.
+     *
+     * @param materializer
+     * @return
+     */
     public Pair<ActorRef, Publisher<JsonNode>> createWebSocketConnections(Materializer materializer) {
-        // Creates a source to be materialized as an actor reference.
-
         // Creating a source can be done through various means, but here we want
         // the source exposed as an actor so we can send it messages from other
         // actors.
@@ -128,10 +152,9 @@ public abstract class ActorBackedWebSocket {
      * @param rh
      * @return success or failure of check
      */
-
     public static boolean sameOriginCheck(Http.RequestHeader rh) {
         final String originHeader = rh.getHeader("Origin");
-        if(originHeader == null || !originMatches(originHeader)){
+        if (originHeader == null || !originMatches(originHeader)) {
             return false;
         } else {
             return true;
@@ -141,6 +164,7 @@ public abstract class ActorBackedWebSocket {
     /**
      * Checks that the origin header is as expected to mitigate xsrf.
      * TODO List of servers should be in configuration.
+     *
      * @param origin origin http header used to validate source of connection
      * @return
      */
