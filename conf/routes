@@ -9,10 +9,14 @@ GET     /                           controllers.ProductController.index()
 GET     /pricing/price              controllers.PricingController.getPrice(sku: String)
 GET     /pricing/prices             controllers.PricingController.getPrices(skus: java.util.List[String])
 
-# Route for websocket
-GET     /ws                         controllers.ProductController.webSocket()
 # Test endpoint to push product update over websockets
 GET     /products/update            controllers.ProductController.update()
+
+# Test endpoint for async computation
+GET     /test/fibonacci             controllers.ApplicationController.fibonacci(limit: Integer)
+
+# Route for websocket
+GET     /ws                         controllers.ProductController.webSocket()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
