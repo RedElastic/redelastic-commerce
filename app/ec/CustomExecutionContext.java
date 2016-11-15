@@ -4,7 +4,7 @@ import akka.actor.ActorSystem;
 import scala.concurrent.ExecutionContext;
 import scala.concurrent.ExecutionContextExecutor;
 
-public abstract class CustomExecutionContext implements ExecutionContextExecutor {
+abstract class CustomExecutionContext implements ExecutionContextExecutor {
     private final ExecutionContext executionContext;
 
     public CustomExecutionContext(ActorSystem actorSystem, String name) {

@@ -27,11 +27,8 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
 
     @Override
     public void configure() {
-        // Use the system clock as the default implementation of Clock
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
-        // Ask Guice to create an instance of ApplicationTimer when the application starts
         bind(ApplicationTimer.class).asEagerSingleton();
-        // Set AtomicCounter as the implementation for Counter
         bind(Counter.class).to(AtomicCounter.class);
 
         // Bind all services to stubs for testing
@@ -39,7 +36,6 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
 
-//        bindActorFactory(WebSocketActor.class, WebSocketActor.Factory.class);
     }
 
 }
