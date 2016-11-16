@@ -14,6 +14,8 @@ Because Play 2.5 uses Guice heavily, it is not enough to rely on compilation alo
 
 To execute the tests: `sbt test`
 
+### Tests
+
 **PricingControllerTest.java**
 
 Demonstrates a minimal test of a controller.
