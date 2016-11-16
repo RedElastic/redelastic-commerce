@@ -1,59 +1,84 @@
-This is your new Play application
-=================================
+# RedElastic Commerce
 
-This file will be packaged with your application when using `activator dist`.
+Welcome to RedElastic Commerce, a reference application that demonstrates a broad scope of features in the Play framework in context of the commerce domain.  There are several demo files available in this template.
 
-There are several demonstration files available in this template.
+## Controllers
 
-Controllers
-===========
+**ApplicationController.java**
 
-- HomeController.java:
+Shows how to use `CompletionStage<T>` for asynchronous processing along with a custom `ExecutionContext` wrapper that bridges the gap between Java (Executor) and Scala (ExecutionContext).
 
-  Shows how to handle simple HTTP requests.
+Includes an example implementation of parallel fibonacci.  **PricingController.java**  Shows how to do lazy loading for data required by the front end. Renders data as JSON for integration with AJAX calls from JavaScript for pricing information.
 
-- AsyncController.java:
+We architect pricing information asynchronously as pricing will be provided by a completely different subdomain.  **ProductController.java**  The main controller that renders the home page, which is a list of product data.
 
-  Shows how to do asynchronous programming when handling a request.
+`index()` returns a `Result` to demonstrate the difference between synchronous and asynchronous programming (Result is synchronous, CompletionStage(Result) is asynchronous).  
 
-- CountController.java:
+## Components
 
-  Shows how to inject a component into a controller and use the component when
-  handling requests.
+ **Module.java**  
 
-Components
-==========
+Shows how to use [Guice] to bind all the components needed by your application.
 
-- Module.java:
+**Filters.java**
 
-  Shows how to use Guice to bind all the components needed by your application.
+Configured filters that are applied to every request. 
 
-- Counter.java:
+## Services
 
-  An example of a component that contains state, in this case a simple counter.
+ **ApplicationTimer.java**
 
-- ApplicationTimer.java:
+An example of a component that starts when the application starts and stops when the application stops.
 
-  An example of a component that starts when the application starts and stops
-  when the application stops.
+**LongRunningComputation.java**
 
-Filters
-=======
+An example computation that can be injected and executed by controllers. Computes fibonacci based on the limit passed in. 
 
-- Filters.java:
+## Filters
 
-  Creates the list of HTTP filters used by your application.
+**CorsFilter.java** 
 
-- ExampleFilter.java
+TODO
 
-  A simple filter that adds a header to every response.
+  **ResponseCodeMonitorFilter**  
 
-Running the Application
-=======================
+TODO
 
-Prior to running the application, you will need to have a Postgres instance running.
-If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/)
+## ec
 
-After you have Postgres running, you can execute `sbt run` or `activator run`
+TODO
 
+## contexts
 
+This package contains all of the business logic of your application. Each subfolder represents a subdomain within your application.
+
+### api
+
+This folder contains the API and all value objects of the subdomain. It can be considered the [anti-corruption layer] of the subdomain in DDD terminology.
+
+### live
+
+This is the implementation of the subdomain’s logic when in production.
+
+### stub
+
+This is the implementation of the subdomain’s logic when in test or development. Ideally you would not depend on external resources unless testing or developing in production mode. 
+
+# Running the Application
+
+Prior to running the application, you will need to have a Postgres instance running. 
+If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/)  After you have Postgres running, you can execute `sbt run` or `activator run` 
+
+# Testing the Application
+
+Because Play 2.5 uses Guice heavily, it is not enough to rely on compilation alone to detect errors. We must implement a reasonable test suite to detect injection errors.
+
+To execute the tests: `sbt test`
+
+**PricingControllerTest.java**
+
+Demonstrates a minimal test of a controller.
+
+**PricingServiceTest.java**
+
+Demonstrates how to test bounded contexts directly.
