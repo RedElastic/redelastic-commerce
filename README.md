@@ -2,6 +2,30 @@
 
 Welcome to RedElastic Commerce, a reference application that demonstrates a broad scope of features in the Play framework in context of the commerce domain.  There are several demo files available in this template.
 
+## Running the Application
+
+Prior to running the application, you will need to have a Postgres instance running. If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/).
+
+After you have Postgres running, you can execute `sbt run` or `activator run`
+
+## Testing the Application
+
+Because Play 2.5 uses Guice heavily, it is not enough to rely on compilation alone to detect errors. We must implement a reasonable test suite to detect injection errors.
+
+To execute the tests: `sbt test`
+
+**PricingControllerTest.java**
+
+Demonstrates a minimal test of a controller.
+
+**PricingServiceTest.java**
+
+Demonstrates how to test bounded contexts directly.
+
+# Composition
+
+The following section explains each major piece of the overall architecture.
+
 ## Controllers
 
 **ApplicationController.java**
@@ -26,7 +50,7 @@ The main controller that renders the home page, which is a list of product data.
 
 **Module.java**
 
-Shows how to use [Guice] to bind all the components needed by your application.
+Shows how to use [Guice](https://github.com/google/guice) to bind all the components needed by your application.
 
 **Filters.java**
 
@@ -48,11 +72,17 @@ An example computation that can be injected and executed by controllers. Compute
 
 TODO
 
-**ResponseCodeMonitorFilter**
+**ResponseCodeMonitorFilter.java**
 
 TODO
 
 ## ec
+
+**CustomExecutor.java**
+
+Abstract Java Executor for isolating work in different fork-join-pools and thread-pools. We need to provide this wrapper in order to load the configuration of thread pools and fork join from `application.conf` and pass the executor to `CompletionStage<T>`.
+
+**MemoryHungryExecutor.java**
 
 TODO
 
@@ -72,22 +102,3 @@ This is the implementation of the subdomain’s logic when in production.
 
 This is the implementation of the subdomain’s logic when in test or development. Ideally you would not depend on external resources unless testing or developing in production mode.
 
-# Running the Application
-
-Prior to running the application, you will need to have a Postgres instance running. If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/).
-
-After you have Postgres running, you can execute `sbt run` or `activator run`
-
-# Testing the Application
-
-Because Play 2.5 uses Guice heavily, it is not enough to rely on compilation alone to detect errors. We must implement a reasonable test suite to detect injection errors.
-
-To execute the tests: `sbt test`
-
-**PricingControllerTest.java**
-
-Demonstrates a minimal test of a controller.
-
-**PricingServiceTest.java**
-
-Demonstrates how to test bounded contexts directly.

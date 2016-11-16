@@ -6,9 +6,8 @@ import scala.concurrent.ExecutionContext;
 import java.util.concurrent.Executor;
 
 /**
- * Abstract Java Executor for use from guice context for isolating work.
+ * Abstract Java Executor for use from Guice context for isolating work
  */
-
 abstract class CustomExecutor implements Executor {
     private final ExecutionContext executionContext;
 
