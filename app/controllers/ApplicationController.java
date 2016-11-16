@@ -1,7 +1,7 @@
 package controllers;
 
 import com.google.inject.Inject;
-import ec.MemoryHungryExecutionContext;
+import ec.MemoryHungryExecutor;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.LongRunningComputation;
@@ -11,11 +11,11 @@ import java.util.concurrent.CompletionStage;
 
 public class ApplicationController extends Controller {
 
-    private MemoryHungryExecutionContext ec;
+    private MemoryHungryExecutor ec;
     private LongRunningComputation lrc;
 
     @Inject
-    public ApplicationController(MemoryHungryExecutionContext ec, LongRunningComputation lrc) {
+    public ApplicationController(MemoryHungryExecutor ec, LongRunningComputation lrc) {
         this.lrc = lrc;
         this.ec = ec;
     }
