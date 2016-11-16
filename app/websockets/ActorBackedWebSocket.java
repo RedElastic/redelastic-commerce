@@ -37,7 +37,10 @@ import java.util.concurrent.CompletionStage;
 
 /**
  * Websockets backed by Akka streams w/ an actor as the flow.
- * Websocket in is the source, and websocket out is the sink.
+ * Websocket in is the source, used so subscribe to a topic
+ * and websocket out is the sink, used to publish any updates to a topic
+ *
+ * This is an easy example to adapt to your use case.
  *
  * To Use:
  * - Implement createWebsocketActor
@@ -48,12 +51,13 @@ import java.util.concurrent.CompletionStage;
  * https://github.com/playframework/play-websocket-java/
  *
  * The Play documentation for Java Websockets references the deprecated LegacyWebSocket API.
+ * This is a better starting point.
  */
 
 public abstract class ActorBackedWebSocket {
 
     /**
-     * TODO add description
+     * Implement this to describe how to create the actor to push out data to a websocket.
      *
      * @param webSocketOut
      * @return
@@ -61,7 +65,8 @@ public abstract class ActorBackedWebSocket {
     public abstract ActorRef createWebsocketActor(ActorRef webSocketOut);
 
     /**
-     * TODO add description
+     * Produces the websocket to return to play for use as an endpoint.
+     *
      *
      * @param system
      * @param materializer
@@ -70,31 +75,20 @@ public abstract class ActorBackedWebSocket {
     public play.mvc.WebSocket webSocket(ActorSystem system, Materializer materializer) {
         return play.mvc.WebSocket.Json.acceptOrResult(request -> {
             if (sameOriginCheck(request)) {
-                final Flow<JsonNode, JsonNode, NotUsed> flow = wsFutureFlow(system, materializer);
+                // create an actor ref source and associated publisher for sink
+                final Pair<ActorRef, Publisher<JsonNode>> pair = createWebSocketConnections(materializer);
+                Publisher<JsonNode> webSocketIn = pair.second();
+                ActorRef webSocketOut = pair.first();
+
+                // Create a user actor off the request id and attach it to the source
+                final ActorRef webSocketActor = createWebsocketActor(webSocketOut);
+                final Flow<JsonNode, JsonNode, NotUsed> flow = createWebSocketFlow(webSocketIn, webSocketActor, system);
                 return CompletableFuture.completedFuture(F.Either.Right(flow));
             } else {
                 Logger.error("Error found w/ origin header while creating websocket...");
                 return forbiddenResult();
             }
         });
-    }
-
-    /**
-     * TODO add description
-     *
-     * @param system
-     * @param materializer
-     * @return
-     */
-    public Flow<JsonNode, JsonNode, NotUsed> wsFutureFlow(ActorSystem system, Materializer materializer) {
-        // create an actor ref source and associated publisher for sink
-        final Pair<ActorRef, Publisher<JsonNode>> pair = createWebSocketConnections(materializer);
-        Publisher<JsonNode> webSocketIn = pair.second();
-        ActorRef webSocketOut = pair.first();
-
-        // Create a user actor off the request id and attach it to the source
-        final ActorRef webSocketActor = createWebsocketActor(webSocketOut);
-        return createWebSocketFlow(webSocketIn, webSocketActor, system);
     }
 
     /**
@@ -133,8 +127,7 @@ public abstract class ActorBackedWebSocket {
      */
     public Pair<ActorRef, Publisher<JsonNode>> createWebSocketConnections(Materializer materializer) {
         // Creating a source can be done through various means, but here we want
-        // the source exposed as an actor so we can send it messages from other
-        // actors.
+        // the source exposed as an actor so we can send it messages from the event bus.
         final Source<JsonNode, ActorRef> source = Source.actorRef(10, OverflowStrategy.dropTail());
 
         // Creates a sink to be materialized as a publisher.
@@ -152,7 +145,7 @@ public abstract class ActorBackedWebSocket {
      * @param rh
      * @return success or failure of check
      */
-    public static boolean sameOriginCheck(Http.RequestHeader rh) {
+    public boolean sameOriginCheck(Http.RequestHeader rh) {
         final String originHeader = rh.getHeader("Origin");
         if (originHeader == null || !originMatches(originHeader)) {
             return false;
@@ -163,12 +156,12 @@ public abstract class ActorBackedWebSocket {
 
     /**
      * Checks that the origin header is as expected to mitigate xsrf.
-     * TODO List of servers should be in configuration.
+     * TODO Move the list of servers to the configuration.
      *
      * @param origin origin http header used to validate source of connection
      * @return
      */
-    private static boolean originMatches(String origin) {
+    private boolean originMatches(String origin) {
         return origin.contains("localhost:9000") ||
                 origin.contains("localhost:19001") ||
                 origin.contains("chrome-extension://"); //Allow interactions w/ Chrome Extension: https://chrome.google.com/webstore/detail/simple-websocket-client/pfdhoblngboilpfeibdedpjgfnlcodoo?hl=en
@@ -178,7 +171,7 @@ public abstract class ActorBackedWebSocket {
      * Produce a failed response for the origin match check.
      * @return
      */
-    private static CompletionStage<F.Either<Result, Flow<JsonNode, JsonNode, ?>>> forbiddenResult() {
+    private CompletionStage<F.Either<Result, Flow<JsonNode, JsonNode, ?>>> forbiddenResult() {
         final F.Either<Result, Flow<JsonNode, JsonNode, ?>> left = F.Either.Left(Results.forbidden("forbidden"));
         return CompletableFuture.completedFuture(left);
     }

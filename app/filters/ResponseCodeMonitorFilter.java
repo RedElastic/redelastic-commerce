@@ -13,9 +13,9 @@ import java.util.concurrent.Executor;
 import java.util.function.Function;
 
 /**
- * Retrieve a User-session from an external kv store like redis.
- * To maintain a stateless application, we'll store the session in somewhere external.
- * (This is similar to what Rails does)
+ * Example of collecting metrics on response code for monitoring.
+ * Typically you would want to understand if there are lots of 500s - probably page above a threshold.
+ * Could use a lib like Dropwizard Metrics for stats collection, publishing them somewhere (jmx, ganglia, graphite).
  */
 
 @Singleton

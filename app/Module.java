@@ -10,8 +10,6 @@ import contexts.pricing.stub.PricingServiceStub;
 import contexts.product.api.ProductService;
 import contexts.product.stub.ProductServiceStub;
 import services.ApplicationTimer;
-import services.AtomicCounter;
-import services.Counter;
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -29,7 +27,6 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
     public void configure() {
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
         bind(ApplicationTimer.class).asEagerSingleton();
-        bind(Counter.class).to(AtomicCounter.class);
 
         // Bind all services to stubs for testing
         bind(ProductService.class).to(ProductServiceStub.class);

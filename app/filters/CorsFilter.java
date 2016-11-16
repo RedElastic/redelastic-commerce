@@ -8,6 +8,11 @@ import javax.inject.*;
 import play.mvc.*;
 import play.mvc.Http.RequestHeader;
 
+/**
+ * Filter ads an Access-Control-Allow-Origin header to requests for cross origin requests.
+ * Would be used in an API that is accessed from a browser to avoid tripping CSRF security features on another page.
+ */
+
 @Singleton
 public class CorsFilter extends Filter {
 
