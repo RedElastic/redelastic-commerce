@@ -3,6 +3,8 @@ import java.time.Clock;
 
 import contexts.cart.api.CartService;
 import contexts.cart.stub.CartServiceStub;
+import contexts.account.api.AccountService;
+import contexts.account.live.GithubAccountService;
 import play.libs.akka.AkkaGuiceSupport;
 
 import contexts.monitoring.api.MonitoringService;
@@ -35,6 +37,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
         bind(CartService.class).to(CartServiceStub.class);
+        bind(AccountService.class).to(GithubAccountService.class);
     }
 
 }
