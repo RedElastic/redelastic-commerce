@@ -43,6 +43,7 @@ public class CheckoutController extends Controller {
         Cart cart = cartService.getCartForUser();
 
         if (checkoutForm.hasErrors()) {
+            flash("errors", "Please correct the errors below.");
             return badRequest(views.html.checkout.index.render(cart, checkoutForm));
         }
 
