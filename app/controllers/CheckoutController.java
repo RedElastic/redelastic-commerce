@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import contexts.cart.api.Cart;
 import contexts.cart.api.CartService;
 import contexts.checkout.api.CheckoutService;
+import contexts.order.api.Order;
 import contexts.order.api.OrderService;
 import controllers.forms.CheckoutForm;
 import play.data.Form;
@@ -12,6 +13,7 @@ import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import views.html.checkout.confirmation;
 import views.html.checkout.index;
 
 import java.util.concurrent.CompletableFuture;
@@ -42,17 +44,27 @@ public class CheckoutController extends Controller {
         return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
     }
 
-    public CompletionStage<Result> checkout() {
+    public Result checkout() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class).bindFromRequest();
-        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser(), ec.current());
 
         if (checkoutForm.hasErrors()) {
-            return cartFuture.thenApply(cart -> badRequest(views.html.checkout.index.render(cart, checkoutForm)));
+            Cart cart = cartService.getCartForUser();
+            return badRequest(views.html.checkout.index.render(cart, checkoutForm));
         }
 
         flash("success", "Checkout was successful!");
 
-        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
-    }
+        // build order
+        CheckoutForm f = checkoutForm.get();
+        Order order = new Order(f.getFirstName(),
+                f.getLastName(),
+                f.getEmailAddress(),
+                f.getShippingOptions(),
+                f.getStreet(),
+                f.getCity(),
+                f.getProvince(),
+                f.getPostalCode());
 
+        return ok(confirmation.render(order));
+    }
 }
