@@ -9,6 +9,10 @@ GET     /                           controllers.ProductController.index()
 GET     /pricing/price              controllers.PricingController.getPrice(sku: String)
 GET     /pricing/prices             controllers.PricingController.getPrices(skus: java.util.List[String])
 
+# Controller for checkout
+
+GET     /checkout                   controllers.CheckoutController.index()
+
 # Test endpoint to push product update over websockets
 GET     /products/update            controllers.ProductController.update()
 

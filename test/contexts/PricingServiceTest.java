@@ -1,3 +1,5 @@
+package contexts;
+
 import static org.junit.Assert.*;
 
 import contexts.pricing.api.Price;

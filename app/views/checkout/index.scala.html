@@ -1,0 +1,124 @@
+@import contexts.cart.api.Cart
+
+@(cart: Cart)
+
+@main() {
+
+    <div class="uk-grid" data-uk-grid-margin>
+        <div class="uk-width-1-1">
+            <h1 class="uk-heading-large">Checkout</h1>
+        </div>
+    </div>
+
+    <div class="uk-grid" data-uk-grid-margin>
+        <div class="uk-width-6-10">
+
+            <form class="uk-form uk-form-horizontal">
+
+                      <h3>Personal Details</h3>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="first-name">First Name</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="first-name" placeholder="Text input">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="last-name">Last Name</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="last-name" placeholder="Text input">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="email-address">Email Address</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="email-address" placeholder="Text input">
+                            </div>
+                        </div>
+                        <hr>
+                        <h3>Shipping Details</h3>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="form-h-s">Shipping Options</label>
+                            <div class="uk-form-controls">
+                                <select id="form-h-s">
+                                    <option>Choose ...</option>
+                                    <option><strong>Standard</strong> - Free (3-5 business days)</option>
+                                    <option><strong>Express</strong> - $10 (1-2 business days)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <h4>Address</h4>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="email-address">Street and Number</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="email-address" placeholder="Text input">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="email-address">City</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="email-address" placeholder="Text input">
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="form-h-s">Province</label>
+                            <div class="uk-form-controls">
+                                <select id="province">
+                                    <option>Choose ...</option>
+                                    <option>Alberta</option>
+                                    <option>British Columbia</option>
+                                    <option>Manitoba</option>
+                                    <option>New Brunswick</option>
+                                    <option>Newfoundland and Labrador</option>
+                                    <option>Northwest Territories</option>
+                                    <option>Nova Scotia</option>
+                                    <option>Nunavut</option>
+                                    <option>Ontario</option>
+                                    <option>Prince Edward Island</option>
+                                    <option>Quebec</option>
+                                    <option>Saskatchewan</option>
+                                    <option>Yukon</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="uk-form-row">
+                            <label class="uk-form-label" for="email-address">Postal Code</label>
+                            <div class="uk-form-controls">
+                                <input type="text" id="email-address" placeholder="Text input">
+                            </div>
+                        </div>
+                        <hr>
+                        <h3>Submit Order</h3>
+                        <button class="uk-button uk-button-success">Checkout and Pay</button>
+
+                    </form>
+
+        </div>
+        <div class="uk-width-4-10">
+          <div class="uk-panel uk-panel-box">
+            <h3 class="uk-panel-title">Shopping Cart</h3>
+          <table class="uk-table">
+              <thead>
+                  <tr>
+                      <th>Item</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th>
+                      <th>Price</th>
+                  </tr>
+              </thead>
+              @for(item <- cart.getLineItems()) {
+                @partials.cart.lineitem(item)
+              }
+              <tfoot>
+                  <tr>
+                      <td></td>
+                      <td></td>
+                      <td>Total Price</td>
+                      <td>25.99</td>
+                  </tr>
+              </tfoot>
+          </table>
+          </div>
+        </div>
+    </div>
+    
+}

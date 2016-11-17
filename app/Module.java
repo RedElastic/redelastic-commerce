@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
+import contexts.cart.api.CartService;
+import contexts.cart.stub.CartServiceStub;
 import play.libs.akka.AkkaGuiceSupport;
 
 import contexts.monitoring.api.MonitoringService;
@@ -32,7 +34,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(ProductService.class).to(ProductServiceStub.class);
         bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
-
+        bind(CartService.class).to(CartServiceStub.class);
     }
 
 }

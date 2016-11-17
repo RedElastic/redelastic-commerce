@@ -1,5 +1,7 @@
-package contexts.account.api;
+package contexts;
 
+import contexts.account.api.Account;
+import contexts.account.api.GithubAccountService;
 import org.junit.Before;
 import org.junit.Test;
 import play.libs.ws.WSClient;

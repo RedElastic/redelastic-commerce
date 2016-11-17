@@ -1,3 +1,5 @@
+package controllers;
+
 import akka.actor.ActorSystem;
 import contexts.pricing.api.PricingService;
 import controllers.PricingController;

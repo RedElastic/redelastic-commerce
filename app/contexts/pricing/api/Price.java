@@ -1,6 +1,10 @@
 package contexts.pricing.api;
 
+import java.text.DecimalFormat;
+
 public class Price {
+
+    private static DecimalFormat df2 = new DecimalFormat(".##");
 
     public Price(int dollars, int cents) {
         this.dollars = dollars;
@@ -15,6 +19,15 @@ public class Price {
 
     public boolean equals(Price price) {
         return this.dollars == price.dollars && this.cents == price.cents;
+    }
+
+    @Override
+    public String toString() {
+        return df2.format(this.toDouble());
+    }
+
+    public double toDouble() {
+        return dollars + ((double)cents / 100);
     }
 
 }
