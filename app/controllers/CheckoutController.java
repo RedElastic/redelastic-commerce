@@ -5,6 +5,9 @@ import contexts.cart.api.Cart;
 import contexts.cart.api.CartService;
 import contexts.checkout.api.CheckoutService;
 import contexts.order.api.OrderService;
+import controllers.forms.CheckoutForm;
+import play.data.Form;
+import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -19,15 +22,33 @@ public class CheckoutController extends Controller {
     private final CartService cartService;
     private final OrderService orderService;
 
+    private FormFactory formFactory;
+
     @Inject
-    public CheckoutController(CheckoutService checkoutService, CartService cartService, OrderService orderService) {
+    public CheckoutController(CheckoutService checkoutService, CartService cartService, OrderService orderService, FormFactory formFactory) {
         this.checkoutService = checkoutService;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.formFactory = formFactory;
     }
 
     public CompletionStage<Result> index() {
+        Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class);
         CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser());
-        return cartFuture.thenApply(cart -> ok(index.render(cart)));
+        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
     }
+
+    public CompletionStage<Result> checkout() {
+        Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class).bindFromRequest();
+
+        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser());
+
+        if (checkoutForm.hasErrors()) {
+            return cartFuture.thenApply(cart -> badRequest(views.html.checkout.index.render(cart, checkoutForm)));
+        }
+
+        flash("success", "Checkout was successful");
+        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
+    }
+
 }

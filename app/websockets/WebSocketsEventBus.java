@@ -18,7 +18,7 @@ package websockets;
 
 import akka.actor.ActorRef;
 import akka.event.japi.LookupEventBus;
-import contexts.product.live.ProductEvent;
+import contexts.product.api.ProductEvent;
 
 /**
  * Pub/sub mechanism for websockets.

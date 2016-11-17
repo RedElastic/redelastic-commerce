@@ -1,4 +1,4 @@
-package contexts.product.live;
+package contexts.product.api;
 
 import contexts.pricing.api.Price;
 import contexts.product.api.Product;

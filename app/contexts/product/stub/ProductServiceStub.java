@@ -21,6 +21,4 @@ public class ProductServiceStub implements ProductService {
         );
     }
 
-    public List<Product> topProducts() { return null; }
-
 }

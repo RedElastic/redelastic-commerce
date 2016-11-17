@@ -22,7 +22,7 @@ import akka.actor.Props;
 import akka.stream.Materializer;
 import contexts.product.api.Product;
 import contexts.product.api.ProductService;
-import contexts.product.live.ProductEvent;
+import contexts.product.api.ProductEvent;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;

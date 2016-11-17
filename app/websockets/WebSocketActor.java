@@ -20,7 +20,7 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
 import com.fasterxml.jackson.databind.node.IntNode;
-import contexts.product.live.ProductEvent;
+import contexts.product.api.ProductEvent;
 import play.Logger;
 import play.libs.Json;
 
