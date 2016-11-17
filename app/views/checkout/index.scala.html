@@ -22,9 +22,9 @@
                 </div>
             }
 
-            @if(flash.containsKey("errors")) {
+            @if(checkoutForm.hasErrors()) {
                 <div class="uk-alert uk-alert-danger" data-uk-alert>
-                    <p>@flash.get("errors")</p>
+                    <p>Please correct the errors below.</p>
                 </div>
             }
 

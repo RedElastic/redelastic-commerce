@@ -8,6 +8,7 @@ import contexts.order.api.OrderService;
 import controllers.forms.CheckoutForm;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -25,6 +26,9 @@ public class CheckoutController extends Controller {
     private FormFactory formFactory;
 
     @Inject
+    HttpExecutionContext ec; // must have in scope when using CompletionStage<T> inside actions
+
+    @Inject
     public CheckoutController(CheckoutService checkoutService, CartService cartService, OrderService orderService, FormFactory formFactory) {
         this.checkoutService = checkoutService;
         this.cartService = cartService;
@@ -32,24 +36,23 @@ public class CheckoutController extends Controller {
         this.formFactory = formFactory;
     }
 
-    public Result index() {
+    public CompletionStage<Result> index() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class);
-        Cart cart = cartService.getCartForUser();
-        return ok(index.render(cart, checkoutForm));
+        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser(), ec.current());
+        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
     }
 
-    public Result checkout() {
+    public CompletionStage<Result> checkout() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class).bindFromRequest();
-        Cart cart = cartService.getCartForUser();
+        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser(), ec.current());
 
         if (checkoutForm.hasErrors()) {
-            flash("errors", "Please correct the errors below.");
-            return badRequest(views.html.checkout.index.render(cart, checkoutForm));
+            return cartFuture.thenApply(cart -> badRequest(views.html.checkout.index.render(cart, checkoutForm)));
         }
 
         flash("success", "Checkout was successful!");
 
-        return ok(index.render(cart, checkoutForm));
+        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
     }
 
 }
