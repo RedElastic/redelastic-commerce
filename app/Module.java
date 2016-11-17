@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
+import contexts.account.api.AccountService;
+import contexts.account.api.GithubAccountService;
 import play.libs.akka.AkkaGuiceSupport;
 
 import contexts.monitoring.api.MonitoringService;
@@ -32,6 +34,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(ProductService.class).to(ProductServiceStub.class);
         bind(PricingService.class).to(PricingServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
+        bind(AccountService.class).to(GithubAccountService.class);
 
     }
 

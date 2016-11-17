@@ -17,6 +17,9 @@ GET     /test/fibonacci             controllers.ApplicationController.fibonacci(
 
 # Route for websocket
 GET     /ws                         controllers.ProductController.webSocket()
+GET     /account                    controllers.AccountController.account()
+GET     /login                      controllers.AccountController.account()
+POST    /login                      controllers.AccountController.login()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
