@@ -13,11 +13,18 @@
 
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-6-10">
+
             @if(checkoutForm.hasGlobalErrors) {
                 <div class="uk-alert" data-uk-alert>
                     @for(error <- checkoutForm.globalErrors) {
                         <p>@Messages(error.messages, error.arguments.toArray: _*)</p>
                     }
+                </div>
+            }
+
+            @if(flash.containsKey("success")) {
+                <div class="uk-alert" data-uk-alert>
+                    <p>@flash.get("success")</p>
                 </div>
             }
 

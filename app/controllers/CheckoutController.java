@@ -32,22 +32,23 @@ public class CheckoutController extends Controller {
         this.formFactory = formFactory;
     }
 
-    public CompletionStage<Result> index() {
+    public Result index() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class);
-        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser());
-        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
+        Cart cart = cartService.getCartForUser();
+        return ok(index.render(cart, checkoutForm));
     }
 
-    public CompletionStage<Result> checkout() {
+    public Result checkout() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class).bindFromRequest();
-        CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser());
+        Cart cart = cartService.getCartForUser();
 
         if (checkoutForm.hasErrors()) {
-            return cartFuture.thenApply(cart -> badRequest(views.html.checkout.index.render(cart, checkoutForm)));
+            return badRequest(views.html.checkout.index.render(cart, checkoutForm));
         }
 
-        flash("success", "Checkout was successful");
-        return cartFuture.thenApply(cart -> ok(index.render(cart, checkoutForm)));
+        flash("success", "Checkout was successful!");
+
+        return ok(index.render(cart, checkoutForm));
     }
 
 }
