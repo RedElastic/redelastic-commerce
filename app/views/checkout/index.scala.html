@@ -13,123 +13,121 @@
 
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-6-10">
+            @if(checkoutForm.hasGlobalErrors) {
+                <div class="uk-alert" data-uk-alert>
+                    @for(error <- checkoutForm.globalErrors) {
+                        <p>@Messages(error.messages, error.arguments.toArray: _*)</p>
+                    }
+                </div>
+            }
 
-                    @if(checkoutForm.hasGlobalErrors) {
-                        <div class="uk-alert" data-uk-alert>
-                            @for(error <- checkoutForm.globalErrors) {
-                                <p>@Messages(error.messages, error.arguments.toArray: _*)</p>
-                            }
+            @helper.form(action = routes.CheckoutController.checkout(), 'class -> "uk-form uk-form-horizontal") {
+
+              <h3>Personal Details</h3>
+
+                @helper.input(checkoutForm("firstName"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("firstName").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">First Name</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
                         </div>
-                    }
+                    </div>
+                }
 
-                    @helper.form(action = routes.CheckoutController.checkout(), 'class -> "uk-form uk-form-horizontal") {
+                @helper.input(checkoutForm("lastName"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("lastName").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Last Name</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
+                        </div>
+                    </div>
+                }
 
-                      <h3>Personal Details</h3>
+                @helper.input(checkoutForm("emailAddress"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("emailAddress").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Email Address</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
+                        </div>
+                    </div>
+                }
 
-                        @helper.input(checkoutForm("firstName"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("firstName").hasErrors) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">First Name</label>
-                                <div class="uk-form-controls">
-                                    <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
+                <hr>
 
-                        @helper.input(checkoutForm("lastName"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Last Name</label>
-                                <div class="uk-form-controls">
-                                    <input type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
+                <h3>Shipping Details</h3>
 
-                        @helper.input(checkoutForm("emailAddress"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Email Address</label>
-                                <div class="uk-form-controls">
-                                    <input type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
+                @helper.input(checkoutForm("shippingOptions"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("shippingOptions").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Shipping Options</label>
+                        <div class="uk-form-controls">
+                            <select id="@id" class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}">
+                                <option>Choose ...</option>
+                                <option value="standard"><strong>Standard</strong> - Free (3-5 business days)</option>
+                                <option value="express"><strong>Express</strong> - $10 (1-2 business days)</option>
+                            </select>
+                        </div>
+                    </div>
+                }
 
-                        <hr>
+                <h4>Address</h4>
 
-                        <h3>Shipping Details</h3>
+                @helper.input(checkoutForm("street"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("street").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Street and Number</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
+                        </div>
+                    </div>
+                }
 
-                        @helper.input(checkoutForm("shippingOptions"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Shipping Options</label>
-                                <div class="uk-form-controls">
-                                    <select id="@id">
-                                        <option>Choose ...</option>
-                                        <option value="standard"><strong>Standard</strong> - Free (3-5 business days)</option>
-                                        <option value="express"><strong>Express</strong> - $10 (1-2 business days)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        }
+                @helper.input(checkoutForm("city"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("city").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">City</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
+                        </div>
+                    </div>
+                }
 
-                        <h4>Address</h4>
+                @helper.input(checkoutForm("province"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("province").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Province</label>
+                        <div class="uk-form-controls">
+                            <select id="@id" class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}">
+                                <option>Choose ...</option>
+                                <option value="AB">Alberta</option>
+                                <option value="BC">British Columbia</option>
+                                <option value="MB">Manitoba</option>
+                                <option value="NB">New Brunswick</option>
+                                <option value="NL">Newfoundland and Labrador</option>
+                                <option value="NT">Northwest Territories</option>
+                                <option value="NS">Nova Scotia</option>
+                                <option value="NU">Nunavut</option>
+                                <option value="ON">Ontario</option>
+                                <option value="PE">Prince Edward Island</option>
+                                <option value="QC">Quebec</option>
+                                <option value="SK">Saskatchewan</option>
+                                <option value="YK">Yukon</option>
+                            </select>
+                        </div>
+                    </div>
+                }
 
-                        @helper.input(checkoutForm("street"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Street and Number</label>
-                                <div class="uk-form-controls">
-                                    <input type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
+                @helper.input(checkoutForm("postalCode"), '_label -> null, '_showConstraints -> false, 'hasErrors -> checkoutForm("postalCode").hasErrors) { (id, name, value, args) =>
+                    <div class="uk-form-row">
+                        <label class="uk-form-label" for="@id">Postal Code</label>
+                        <div class="uk-form-controls">
+                            <input class="@if(args.get('hasErrors).map(_ match { case x:Boolean => x}).get){uk-form-danger}" type="text" name="@name" id="@id" value="@value" @toHtmlArgs(args)>
+                        </div>
+                    </div>
+                }
 
-                        @helper.input(checkoutForm("city"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">City</label>
-                                <div class="uk-form-controls">
-                                    <input type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
+                <hr>
 
-                        @helper.input(checkoutForm("province"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Province</label>
-                                <div class="uk-form-controls">
-                                    <select id="@id">
-                                        <option>Choose ...</option>
-                                        <option value="AB">Alberta</option>
-                                        <option value="BC">British Columbia</option>
-                                        <option value="MB">Manitoba</option>
-                                        <option value="NB">New Brunswick</option>
-                                        <option value="NL">Newfoundland and Labrador</option>
-                                        <option value="NT">Northwest Territories</option>
-                                        <option value="NS">Nova Scotia</option>
-                                        <option value="NU">Nunavut</option>
-                                        <option value="ON">Ontario</option>
-                                        <option value="PE">Prince Edward Island</option>
-                                        <option value="QC">Quebec</option>
-                                        <option value="SK">Saskatchewan</option>
-                                        <option value="YK">Yukon</option>
-                                    </select>
-                                </div>
-                            </div>
-                        }
+                <h3>Submit Order</h3>
 
-                        @helper.input(checkoutForm("postalCode"), '_label -> null) { (id, name, value, args) =>
-                            <div class="uk-form-row">
-                                <label class="uk-form-label" for="@id">Postal Code</label>
-                                <div class="uk-form-controls">
-                                    <input type="text" name="@name" id="@id" @toHtmlArgs(args)>
-                                </div>
-                            </div>
-                        }
-
-                        <hr>
-
-                        <h3>Submit Order</h3>
-
-                        <button class="uk-button uk-button-success">Checkout and Pay</button>
-                    }
-
+                <button class="uk-button uk-button-success">Checkout and Pay</button>
+            }
         </div>
 
         <div class="uk-width-4-10">

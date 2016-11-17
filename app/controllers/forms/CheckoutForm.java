@@ -4,15 +4,14 @@ import play.data.validation.Constraints;
 
 public class CheckoutForm {
 
-    @Constraints.Required
-    protected String firstName;
-    protected String lastName;
-    protected String emailAddress;
-    protected String shippingOptions;
-    protected String street;
-    protected String city;
-    protected String province;
-    protected String postalCode;
+    @Constraints.Required protected String firstName;
+    @Constraints.Required protected String lastName;
+    @Constraints.Required protected String emailAddress; // TODO email address validator
+    @Constraints.Required protected String shippingOptions;
+    @Constraints.Required protected String street;
+    @Constraints.Required protected String city;
+    @Constraints.Required protected String province;
+    @Constraints.Required protected String postalCode; // TODO postal code validator
 
     public String getFirstName() {
         return firstName;

@@ -40,7 +40,6 @@ public class CheckoutController extends Controller {
 
     public CompletionStage<Result> checkout() {
         Form<CheckoutForm> checkoutForm = formFactory.form(CheckoutForm.class).bindFromRequest();
-
         CompletionStage<Cart> cartFuture = CompletableFuture.supplyAsync(() -> cartService.getCartForUser());
 
         if (checkoutForm.hasErrors()) {
