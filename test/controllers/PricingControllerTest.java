@@ -56,7 +56,7 @@ public class PricingControllerTest extends WithApplication {
     }
 
     @Test
-    public void testGetPrice() {
+    public void testGetPrice() throws Exception {
         Application app = this.provideApplication();
         Injector inj = app.injector();
 
@@ -64,14 +64,9 @@ public class PricingControllerTest extends WithApplication {
 
         CompletionStage<Result> futureResult = new PricingController(ps).getPrice("1000196120001");
 
-        try {
-            Result result = futureResult.toCompletableFuture().get();
-            assertEquals(200, result.status());
-            assertEquals("application/json", result.contentType().get());
-            assertEquals(contentAsString(result), "{\"dollars\":64,\"cents\":25}");
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        Result result = futureResult.toCompletableFuture().get();
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType().get());
+        assertEquals(contentAsString(result), "{\"dollars\":64,\"cents\":25}");
     }
-
 }
