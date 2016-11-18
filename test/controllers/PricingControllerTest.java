@@ -2,6 +2,7 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import contexts.pricing.api.PricingService;
+import contexts.pricing.stub.PricingServiceStub;
 import controllers.PricingController;
 
 import static org.junit.Assert.*;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import play.Application;
 import play.inject.Injector;
 import play.inject.guice.GuiceApplicationBuilder;
+import play.mvc.Http;
 import play.mvc.Result;
 import play.test.WithApplication;
 import scala.concurrent.ExecutionContextExecutor;
@@ -17,6 +19,7 @@ import scala.concurrent.ExecutionContextExecutor;
 import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
 
+import static play.inject.Bindings.bind;
 import static play.test.Helpers.*;
 
 public class PricingControllerTest extends WithApplication {
@@ -24,6 +27,7 @@ public class PricingControllerTest extends WithApplication {
     @Override
     protected Application provideApplication() {
         return new GuiceApplicationBuilder()
+                .overrides(bind(PricingService.class).to(PricingServiceStub.class)) //inject the stub, regardless of the app context
                 .build();
     }
 
@@ -33,8 +37,13 @@ public class PricingControllerTest extends WithApplication {
         Injector inj = app.injector();
 
         PricingService ps = inj.instanceOf(PricingService.class);
-
         CompletionStage<Result> futureResult = new PricingController(ps).getPrices(Arrays.asList("1000196120001", "3000196120003"));
+
+        Http.RequestBuilder request = new Http.RequestBuilder()
+                .method("POST")
+                .bodyText("{username: jason")
+                .uri("/account");
+        System.out.println(request.body().asText());
 
         try {
             Result result = futureResult.toCompletableFuture().get();
