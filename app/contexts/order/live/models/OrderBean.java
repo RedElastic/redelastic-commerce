@@ -1,0 +1,43 @@
+package contexts.order.live.models;
+
+import java.util.*;
+import javax.persistence.*;
+
+import play.db.ebean.*;
+import play.data.validation.*;
+
+@Entity
+public class OrderBean extends com.avaje.ebean.Model {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    public Long id;
+
+    @Constraints.Required
+    public String firstName;
+
+    @Constraints.Required
+    public String lastName;
+
+    @Constraints.Required
+    public String emailAddress;
+
+    @Constraints.Required
+    public String shippingOption;
+
+    @Constraints.Required
+    public String street;
+
+    @Constraints.Required
+    public String city;
+
+    @Constraints.Required
+    public String province;
+
+    @Constraints.Required
+    public String postalCode;
+
+    public static Find<Long,OrderBean> find = new Find<Long,OrderBean>(){};
+
+}

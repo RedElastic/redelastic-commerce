@@ -5,6 +5,9 @@ import contexts.cart.api.CartService;
 import contexts.cart.stub.CartServiceStub;
 import contexts.account.api.AccountService;
 import contexts.account.live.GithubAccountService;
+import contexts.order.api.OrderService;
+import contexts.order.live.OrderServiceLive;
+import contexts.order.stub.OrderServiceStub;
 import play.libs.akka.AkkaGuiceSupport;
 
 import contexts.monitoring.api.MonitoringService;
@@ -38,6 +41,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
         bind(CartService.class).to(CartServiceStub.class);
         bind(AccountService.class).to(GithubAccountService.class);
+        bind(OrderService.class).to(OrderServiceLive.class);
     }
 
 }

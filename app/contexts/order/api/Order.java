@@ -19,6 +19,7 @@ public class Order {
                  String city,
                  String province,
                  String postalCode) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
@@ -27,6 +28,7 @@ public class Order {
         this.city = city;
         this.province = province;
         this.postalCode = postalCode;
+
     }
 
     public String getFirstName() {

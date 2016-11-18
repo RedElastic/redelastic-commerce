@@ -1,4 +1,6 @@
 package contexts.order.api;
 
-public class OrderService {
+public interface OrderService {
+    Long saveOrder(Order order);
+    Order findOrder(Long id);
 }
