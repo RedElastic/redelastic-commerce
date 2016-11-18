@@ -1,5 +1,6 @@
 logs
 target
+target/.history
 /.idea
 /.idea_modules
 /.classpath
