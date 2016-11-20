@@ -26,7 +26,7 @@ import contexts.product.api.ProductEvent;
  * Then any updates to are published on that channel/topic.
  */
 
-public class WebSocketsEventBus extends LookupEventBus<ProductEvent, ActorRef, String> {
+public class WebSocketsEventBus extends LookupEventBus<WebSocketEvent, ActorRef, String> {
 
     /**
      * Default map size. Should be larger than the number of products to avoid resizing ops.
@@ -43,7 +43,7 @@ public class WebSocketsEventBus extends LookupEventBus<ProductEvent, ActorRef, S
      * @return
      */
     @Override
-    public String classify(ProductEvent event) {
+    public String classify(WebSocketEvent event) {
         return event.getChannel();
     }
 
@@ -53,7 +53,7 @@ public class WebSocketsEventBus extends LookupEventBus<ProductEvent, ActorRef, S
      * @param subscriber the websocket ActorRef
      */
     @Override
-    public void publish(ProductEvent event, ActorRef subscriber) {
+    public void publish(WebSocketEvent event, ActorRef subscriber) {
         subscriber.tell(event, ActorRef.noSender());
     }
 

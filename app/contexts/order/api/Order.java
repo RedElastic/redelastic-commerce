@@ -2,14 +2,14 @@ package contexts.order.api;
 
 public class Order {
 
-    private String firstName;
-    private String lastName;
-    private String emailAddress;
-    private String shippingOption;
-    private String street;
-    private String city;
-    private String province;
-    private String postalCode;
+    private final String firstName;
+    private final String lastName;
+    private final String emailAddress;
+    private final String shippingOption;
+    private final String street;
+    private final String city;
+    private final String province;
+    private final String postalCode;
 
     public Order(String firstName,
                  String lastName,

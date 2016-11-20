@@ -29,7 +29,7 @@ import play.mvc.WebSocket;
 import scala.concurrent.ExecutionContextExecutor;
 import views.html.index;
 import websockets.ActorBackedWebSocket;
-import websockets.WebSocketActor;
+import websockets.ProductEventWebSocketActor;
 import websockets.WebSocketsEventBus;
 
 import javax.inject.Inject;
@@ -55,7 +55,7 @@ public class ProductController extends Controller {
         this.sockets = new ActorBackedWebSocket() {
             @Override
             public ActorRef createWebsocketActor(ActorRef webSocketOut) {
-                return actorSystem.actorOf(Props.create(WebSocketActor.class, webSocketOut, eventBus));
+                return actorSystem.actorOf(Props.create(ProductEventWebSocketActor.class, webSocketOut, eventBus));
             }
         };
     }
@@ -69,7 +69,11 @@ public class ProductController extends Controller {
         return sockets.webSocket(actorSystem, materializer);
     }
 
-    public Result update() {
+    /**
+     * Test endpoint for demo
+     * @return
+     */
+    public Result testUpdate() {
         eventBus.publish(new ProductEvent(new Product(1, "sku", "http://google.com/img.jpg", "name", "description"), Optional.empty()));
         return ok("done!");
     }
