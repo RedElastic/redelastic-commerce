@@ -2,10 +2,11 @@ package contexts.product.api;
 
 import contexts.pricing.api.Price;
 import contexts.product.api.Product;
+import websockets.WebSocketEvent;
 
 import java.util.Optional;
 
-public class ProductEvent {
+public class ProductEvent implements WebSocketEvent {
     private final Product product;
     private final Optional<Price> price;
 
