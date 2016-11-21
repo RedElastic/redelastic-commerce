@@ -6,14 +6,12 @@ import akka.actor.Props;
 import akka.stream.Materializer;
 import contexts.order.api.Order;
 import contexts.order.api.OrderEvent;
-import contexts.product.api.ProductService;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
-import scala.concurrent.ExecutionContextExecutor;
+import views.html.admin.index;
 import websockets.ActorBackedWebSocket;
 import websockets.OrderEventWebSocketActor;
-import websockets.ProductEventWebSocketActor;
 import websockets.WebSocketsEventBus;
 
 import javax.inject.Inject;
@@ -37,9 +35,14 @@ public class OrderDashboardController extends Controller {
         };
     }
 
+    public Result index() {
+        return ok(index.render());
+    }
+
     public WebSocket webSocket() {
         return sockets.webSocket(actorSystem, materializer);
     }
+
     public Result testUpdate() {
         eventBus.publish(new OrderEvent(new Order(
                 "first",
@@ -52,6 +55,7 @@ public class OrderDashboardController extends Controller {
                 "postal code"),
                 OrderEvent.EventType.Purchased
         ));
+
         return ok("done!");
     }
 }

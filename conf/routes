@@ -13,7 +13,8 @@ GET     /pricing/prices             controllers.PricingController.getPrices(skus
 GET     /checkout                   controllers.CheckoutController.index()
 POST    /checkout                   controllers.CheckoutController.checkout()
 
-
+# Admin Controller
+GET     /admin                      controllers.OrderDashboardController.index()
 
 # Test endpoint for async computation
 GET     /test/fibonacci             controllers.ApplicationController.fibonacci(limit: Integer)
@@ -21,9 +22,10 @@ GET     /test/fibonacci             controllers.ApplicationController.fibonacci(
 # Routes for websocket
 GET     /ws/product                 controllers.ProductController.webSocket()
 GET     /ws/orders                  controllers.OrderDashboardController.webSocket()
+
 # Test endpoint for websockets
-GET     /ws/product/testupdate          controllers.ProductController.testUpdate()
-GET     /ws/orders/testupdate           controllers.OrderDashboardController.testUpdate()
+GET     /ws/product/testupdate      controllers.ProductController.testUpdate()
+GET     /ws/orders/testupdate       controllers.OrderDashboardController.testUpdate()
 
 # Routes for account
 GET     /account                    controllers.AccountController.account()
