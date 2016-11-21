@@ -1,4 +1,4 @@
-name := """redelastic-commerce"""
+name := """reactive-commerce"""
 
 version := "1.0-SNAPSHOT"
 

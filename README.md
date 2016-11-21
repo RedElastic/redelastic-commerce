@@ -1,4 +1,4 @@
-# RedElastic Commerce
+# Reactive Commerce
 
 Welcome to RedElastic Commerce, a reference application that demonstrates a broad scope of features in the Play framework in context of the commerce domain.  There are several demo files available in this template.
 
