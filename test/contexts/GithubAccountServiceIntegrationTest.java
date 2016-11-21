@@ -37,7 +37,7 @@ public class GithubAccountServiceIntegrationTest {
         //We need to have the thread wait for the result in the test or it will succeed regardless of result
         //We cast the abstract CompletionStage  to the CompletableFuture impl to have access to the get method
         //Note: It's only appropriate to block w/ get() in test contexts!
-        Account account = ((CompletableFuture<Account>)cs).get(1, TimeUnit.SECONDS);
+        Account account = ((CompletableFuture<Account>)cs).get(10, TimeUnit.SECONDS);
 
         //Check the result from github
         assertEquals("jasongoodwin", account.getUserId());
