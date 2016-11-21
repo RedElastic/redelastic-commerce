@@ -25,11 +25,11 @@ public class OrderEventWebSocketActor extends AbstractActor {
         eventBus.subscribe(self(), "websocket-order-events");
 
         receive(ReceiveBuilder.
-                        match(OrderEvent.class, orderEvent -> { //Subscribed event received
-                            Logger.info("received an order event. Sending to websocket!");
-                            out.tell(Json.toJson(orderEvent), self());
-                        }).
-                        matchAny(o -> Logger.error("received unknown message " + o.getClass())).build()
+            match(OrderEvent.class, orderEvent -> { //Subscribed event received
+                Logger.info("received an order event. Sending to websocket!");
+                out.tell(Json.toJson(orderEvent), self());
+            }).
+            matchAny(o -> Logger.error("received unknown message " + o.getClass())).build()
         );
     }
 }

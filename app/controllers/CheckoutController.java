@@ -58,24 +58,24 @@ public class CheckoutController extends Controller {
 
         CheckoutForm f = checkoutForm.get();
         Order order = new Order(f.getFirstName(),
-                f.getLastName(),
-                f.getEmailAddress(),
-                f.getShippingOptions(),
-                f.getStreet(),
-                f.getCity(),
-                f.getProvince(),
-                f.getPostalCode());
+            f.getLastName(),
+            f.getEmailAddress(),
+            f.getShippingOptions(),
+            f.getStreet(),
+            f.getCity(),
+            f.getProvince(),
+            f.getPostalCode());
 
         eventBus.publish(new OrderEvent(order, OrderEvent.EventType.Purchased)); //publish the event to anyone watching the dashboard.
 
         return CompletableFuture
-                .supplyAsync(() -> orderService.saveOrder(order), ec.current())
-                .thenApply(id -> {
-                    if (id > 0l) {
-                        return ok(confirmation.render(order));
-                    } else {
-                        return internalServerError();
-                    }
-                });
+            .supplyAsync(() -> orderService.saveOrder(order), ec.current())
+            .thenApply(id -> {
+                if (id > 0l) {
+                    return ok(confirmation.render(order));
+                } else {
+                    return internalServerError();
+                }
+            });
     }
 }

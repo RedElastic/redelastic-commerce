@@ -39,15 +39,15 @@ public class ProductEventWebSocketActor extends AbstractActor {
         this.eventBus = eventBus;
 
         receive(ReceiveBuilder.
-                match(ProductEvent.class, productEvent -> { //Subscribed event received
-                    Logger.info("received a product update. Sending to websocket!");
-                    out.tell(Json.toJson(productEvent), self());
-                }).
-                match(IntNode.class, topic -> { //Subscribe to topic. TODO could be json instead: {subscribe: "topic"}
-                    Logger.info("subscribing to topic {}", topic);
-                    eventBus.subscribe(self(), topic.asText());
-                }).
-                matchAny(o -> Logger.error("received unknown message " + o.getClass())).build()
+            match(ProductEvent.class, productEvent -> { //Subscribed event received
+                Logger.info("received a product update. Sending to websocket!");
+                out.tell(Json.toJson(productEvent), self());
+            }).
+            match(IntNode.class, topic -> { //Subscribe to topic. TODO could be json instead: {subscribe: "topic"}
+                Logger.info("subscribing to topic {}", topic);
+                eventBus.subscribe(self(), topic.asText());
+            }).
+            matchAny(o -> Logger.error("received unknown message " + o.getClass())).build()
         );
     }
 }

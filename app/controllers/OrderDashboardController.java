@@ -45,15 +45,15 @@ public class OrderDashboardController extends Controller {
 
     public Result testUpdate() {
         eventBus.publish(new OrderEvent(new Order(
-                "first",
-                "last",
-                "email@address.com",
-                "Shipping option",
-                "street",
-                "city",
-                "province",
-                "postal code"),
-                OrderEvent.EventType.Purchased
+            "first",
+            "last",
+            "email@address.com",
+            "Shipping option",
+            "street",
+            "city",
+            "province",
+            "postal code"),
+            OrderEvent.EventType.Purchased
         ));
 
         return ok("done!");

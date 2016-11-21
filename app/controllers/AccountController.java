@@ -38,7 +38,7 @@ public class AccountController extends Controller {
         return accountService.getAccount(userId).handle((account, t) -> {
             if (account != null) {
                 session.put("userId", account.getUserId());
-                return ok("added"); //At this point you'll see the id in a cookie. TODO redirect
+                return ok("added"); // At this point you'll see the id in a cookie (TODO redirect)
             } else {
                 return unauthorized("user not found");
             }
@@ -51,9 +51,7 @@ public class AccountController extends Controller {
         if (userId == null) {
             return CompletableFuture.completedFuture(ok(views.html.login.render()));
         } else {
-            return accountService.getAccount(userId).thenApply(account ->
-                    ok(Json.toJson(account))
-            );
+            return accountService.getAccount(userId).thenApply(account -> ok(Json.toJson(account)));
         }
     }
 }
