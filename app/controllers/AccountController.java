@@ -4,10 +4,12 @@ import com.google.inject.Inject;
 import contexts.account.api.AccountService;
 import play.data.DynamicForm;
 import play.data.FormFactory;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -49,7 +51,9 @@ public class AccountController extends Controller {
         if (userId == null) {
             return CompletableFuture.completedFuture(ok(views.html.login.render()));
         } else {
-            return accountService.getAccount(userId).thenApply(account -> ok(views.html.account.render(account)));
+            return accountService.getAccount(userId).thenApply(account ->
+                    ok(Json.toJson(account))
+            );
         }
     }
 }
