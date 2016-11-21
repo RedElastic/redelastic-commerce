@@ -14,7 +14,6 @@ import play.libs.Json;
  */
 
 public class OrderEventWebSocketActor extends AbstractActor {
-
     private final ActorRef out;
     private final WebSocketsEventBus eventBus;
 

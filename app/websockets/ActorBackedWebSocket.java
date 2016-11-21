@@ -100,7 +100,9 @@ public abstract class ActorBackedWebSocket {
      * @param actorSystem
      * @return
      */
-    public Flow<JsonNode, JsonNode, NotUsed> createWebSocketFlow(Publisher<JsonNode> webSocketIn, ActorRef userActor, ActorSystem actorSystem) {
+    public Flow<JsonNode, JsonNode, NotUsed> createWebSocketFlow(Publisher<JsonNode> webSocketIn,
+                                                                 ActorRef userActor,
+                                                                 ActorSystem actorSystem) {
         // source is what comes in: browser ws events -> play -> publisher -> userActor
         // sink is what comes out:  userActor -> websocketOut -> play -> browser ws events
         final Sink<JsonNode, NotUsed> sink = Sink.actorRef(userActor, new Status.Success("success"));
