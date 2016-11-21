@@ -25,30 +25,30 @@ public class GithubAccountService implements AccountService {
     private final CircuitBreaker breaker;
 
     @Inject
-    public GithubAccountService(WSClient wsClient, ActorSystem system) { //TODO inject configuration for breaker so you can tune it live and open it
+    public GithubAccountService(WSClient wsClient, ActorSystem system) { // TODO inject configuration for breaker so you can tune it live and open it
         this.ws = wsClient;
         breaker = new CircuitBreaker(system.scheduler(),
-                5,                                  //Max number of failures (in a row!) to tolerate before opening breaker
-                FiniteDuration.create(1, "second"), //Request timeout: if it takes longer than 1s, consider the req a failure.
-                FiniteDuration.create(1, "second"), //Reset: after 1s put into half open
-                system.dispatcher()).
-                onOpen(() -> Logger.warn("circuit breaker opened!")).           // failure first causes the circuit breaker to open
-                onClose(() -> Logger.info("circuit breaker closed!")).          // then, it samples a request
-                onHalfOpen(() -> Logger.warn("circuit breaker half opened!"));  //finally once a request succeeds, the breaker closes again
+            5,                                  //Max number of failures (in a row!) to tolerate before opening breaker
+            FiniteDuration.create(1, "second"), //Request timeout: if it takes longer than 1s, consider the req a failure.
+            FiniteDuration.create(1, "second"), //Reset: after 1s put into half open
+            system.dispatcher()).
+            onOpen(() -> Logger.warn("circuit breaker opened!")).           // failure first causes the circuit breaker to open
+            onClose(() -> Logger.info("circuit breaker closed!")).          // then, it samples a request
+            onHalfOpen(() -> Logger.warn("circuit breaker half opened!"));  //finally once a request succeeds, the breaker closes again
     }
 
     public CompletionStage<Account> getAccount(String username) {
         return breaker.callWithCircuitBreakerCS(() ->
-                ws.url(USER_API_ENDPOINT + username) //This is a builder for a request - can add headers, auth etc here.
-                        .setMethod("GET")                   //Set http Method.
-                        .get()                              //execute the request.
-                        .thenApply(response -> {            //and eventually deserialize the result to an object
-                            JsonNode jsonNode = response.asJson();
-                            return new Account(
-                                    jsonNode.get("login").asText(),
-                                    jsonNode.get("name").asText(),
-                                    jsonNode.get("avatar_url").asText()
-                            );
-                        }));
+            ws.url(USER_API_ENDPOINT + username) //This is a builder for a request - can add headers, auth etc here.
+                .setMethod("GET")                   //Set http Method.
+                .get()                              //execute the request.
+                .thenApply(response -> {            //and eventually deserialize the result to an object
+                    JsonNode jsonNode = response.asJson();
+                    return new Account(
+                        jsonNode.get("login").asText(),
+                        jsonNode.get("name").asText(),
+                        jsonNode.get("avatar_url").asText()
+                    );
+                }));
     }
 }
