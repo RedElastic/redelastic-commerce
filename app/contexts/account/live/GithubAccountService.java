@@ -15,7 +15,7 @@ import java.util.concurrent.CompletionStage;
 /**
  * Uses GitHub public user api to get account information
  * eg HTTP GET https://api.github.com/users/jasongoodwin
- *
+ * <p>
  * Also wraps the requests in a circuit breaker to demonstrate how to protect
  * from failures in downstream systems
  */
@@ -37,17 +37,18 @@ public class GithubAccountService implements AccountService {
                 onHalfOpen(() -> Logger.warn("circuit breaker half opened!"));  //finally once a request succeeds, the breaker closes again
     }
 
-    public CompletionStage<Account> getAccount(String username){
-        return ws.url(USER_API_ENDPOINT + username) //This is a builder for a request - can add headers, auth etc here.
-                .setMethod("GET")                   //Set http Method.
-                .get()                              //execute the request.
-                .thenApply(response -> {            //and eventually deserialize the result to an object
-                    JsonNode jsonNode = response.asJson();
-                    return new Account(
-                            jsonNode.get("login").asText(),
-                            jsonNode.get("name").asText(),
-                            jsonNode.get("avatar_url").asText()
-                    );
-                });
+    public CompletionStage<Account> getAccount(String username) {
+        return breaker.callWithCircuitBreakerCS(() ->
+                ws.url(USER_API_ENDPOINT + username) //This is a builder for a request - can add headers, auth etc here.
+                        .setMethod("GET")                   //Set http Method.
+                        .get()                              //execute the request.
+                        .thenApply(response -> {            //and eventually deserialize the result to an object
+                            JsonNode jsonNode = response.asJson();
+                            return new Account(
+                                    jsonNode.get("login").asText(),
+                                    jsonNode.get("name").asText(),
+                                    jsonNode.get("avatar_url").asText()
+                            );
+                        }));
     }
 }
