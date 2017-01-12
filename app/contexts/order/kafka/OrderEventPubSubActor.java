@@ -13,18 +13,18 @@ import play.libs.Json;
  * Whenever an order is received, send the update to anyone watching the dashboard.
  */
 
-public class OrderEventWebSocketActor extends AbstractActor {
+public class OrderEventPubSubActor extends AbstractActor {
     private final ActorRef out;
     private final WebSocketsEventBus eventBus;
 
-    public OrderEventWebSocketActor(ActorRef out, WebSocketsEventBus eventBus) {
+    public OrderEventPubSubActor(ActorRef out, WebSocketsEventBus eventBus) {
         this.out = out;
         this.eventBus = eventBus;
 
         eventBus.subscribe(self(), "websocket-order-events");
 
         receive(ReceiveBuilder.
-            match(OrderEvent.class, orderEvent -> { //Subscribed event received
+            match(OrderEvent.class, orderEvent -> {
                 Logger.info("received an order event. Sending to websocket!");
                 out.tell(Json.toJson(orderEvent), self());
             }).
