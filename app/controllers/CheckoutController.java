@@ -57,7 +57,8 @@ public class CheckoutController extends Controller {
         }
 
         CheckoutForm f = checkoutForm.get();
-        Order order = new Order(f.getFirstName(),
+        Order order = new Order(null, //
+                f.getFirstName(),
             f.getLastName(),
             f.getEmailAddress(),
             f.getShippingOptions(),
@@ -66,14 +67,15 @@ public class CheckoutController extends Controller {
             f.getProvince(),
             f.getPostalCode());
 
-        eventBus.publish(new OrderEvent(order, OrderEvent.EventType.Purchased)); //publish the event to anyone watching the dashboard.
-
         return CompletableFuture
             .supplyAsync(() -> orderService.saveOrder(order), ec.current())
             .thenApply(id -> {
+
                 if (id > 0l) {
+                    eventBus.publish(new OrderEvent(order.withId(id), OrderEvent.EventType.Purchased)); //publish the event to anyone watching the dashboard.
                     return ok(confirmation.render(order));
                 } else {
+                    eventBus.publish(new OrderEvent(order, OrderEvent.EventType.Failed)); //publish the event to anyone watching the dashboard.
                     return internalServerError();
                 }
             });

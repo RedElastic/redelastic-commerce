@@ -28,6 +28,7 @@ public class OrderEvent implements WebSocketEvent {
         Purchased,
         Modified,
         Processed,
-        Cancelled
+        Cancelled,
+        Failed
     }
 }

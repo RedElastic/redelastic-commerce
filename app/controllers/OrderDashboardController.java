@@ -44,10 +44,11 @@ public class OrderDashboardController extends Controller {
 
     public Result testUpdate() {
         eventBus.publish(new OrderEvent(new Order(
+            System.currentTimeMillis(),
             "first",
             "last",
             "email@address.com",
-            "Shipping option",
+            "(test order)",
             "street",
             "city",
             "province",
