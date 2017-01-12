@@ -1,7 +1,5 @@
 package controllers;
 
-import javax.inject.*;
-
 import contexts.pricing.api.Price;
 import contexts.pricing.api.PricingService;
 import play.libs.Json;
@@ -11,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+
+import com.google.inject.Inject;
 
 public class PricingController extends Controller {
 

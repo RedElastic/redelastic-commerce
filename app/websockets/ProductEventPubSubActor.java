@@ -13,12 +13,12 @@ import play.libs.Json;
  * any messages to an actor in the WebSocket stream.
  */
 
-public class ProductEventWebSocketActor extends AbstractActor {
+public class ProductEventPubSubActor extends AbstractActor {
 
     private final ActorRef out;
     private final WebSocketsEventBus eventBus;
 
-    public ProductEventWebSocketActor(ActorRef out, WebSocketsEventBus eventBus) {
+    public ProductEventPubSubActor(ActorRef out, WebSocketsEventBus eventBus) {
         this.out = out;
         this.eventBus = eventBus;
 

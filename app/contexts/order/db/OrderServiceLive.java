@@ -1,8 +1,8 @@
-package contexts.order.live;
+package contexts.order.db;
 
 import contexts.order.api.Order;
 import contexts.order.api.OrderService;
-import contexts.order.live.models.OrderBean;
+import contexts.order.db.models.OrderBean;
 
 /**
  * Implementation details, such as ebean entities, should never "leak" out of the live package.
@@ -10,8 +10,9 @@ import contexts.order.live.models.OrderBean;
  * Adhere to API spec and only accept/return API pojos.
  */
 public class OrderServiceLive implements OrderService {
+
     @Override
-    public Long saveOrder(Order order) {
+    public void saveOrder(Order order) {
         OrderBean bean = new OrderBean();
         bean.firstName = order.getFirstName();
         bean.lastName = order.getLastName();
@@ -22,11 +23,5 @@ public class OrderServiceLive implements OrderService {
         bean.province = order.getProvince();
         bean.postalCode = order.getPostalCode();
         bean.insert();
-        return bean.id;
-    }
-
-    @Override
-    public Order findOrder(Long id) {
-        throw new UnsupportedOperationException();
     }
 }

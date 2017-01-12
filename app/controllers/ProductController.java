@@ -1,5 +1,6 @@
 package controllers;
 
+import com.google.inject.Inject;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
@@ -13,10 +14,9 @@ import play.mvc.WebSocket;
 import scala.concurrent.ExecutionContextExecutor;
 import views.html.index;
 import websockets.ActorBackedWebSocket;
-import websockets.ProductEventWebSocketActor;
+import websockets.ProductEventPubSubActor;
 import websockets.WebSocketsEventBus;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public class ProductController extends Controller {
         this.sockets = new ActorBackedWebSocket() {
             @Override
             public ActorRef createWebsocketActor(ActorRef webSocketOut) {
-                return actorSystem.actorOf(Props.create(ProductEventWebSocketActor.class, webSocketOut, eventBus));
+                return actorSystem.actorOf(Props.create(ProductEventPubSubActor.class, webSocketOut, eventBus));
             }
         };
     }

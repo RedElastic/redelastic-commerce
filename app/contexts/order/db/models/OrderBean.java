@@ -1,9 +1,7 @@
-package contexts.order.live.models;
+package contexts.order.db.models;
 
-import java.util.*;
 import javax.persistence.*;
 
-import play.db.ebean.*;
 import play.data.validation.*;
 
 @Entity

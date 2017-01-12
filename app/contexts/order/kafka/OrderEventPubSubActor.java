@@ -1,18 +1,16 @@
-package websockets;
+package contexts.order.kafka;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.japi.pf.ReceiveBuilder;
-import com.fasterxml.jackson.databind.node.IntNode;
 import contexts.order.api.OrderEvent;
-import contexts.product.api.ProductEvent;
 import play.Logger;
 import play.libs.Json;
+import websockets.WebSocketsEventBus;
 
 /**
  * Whenever an order is received, send the update to anyone watching the dashboard.
  */
-
 public class OrderEventPubSubActor extends AbstractActor {
     private final ActorRef out;
     private final WebSocketsEventBus eventBus;

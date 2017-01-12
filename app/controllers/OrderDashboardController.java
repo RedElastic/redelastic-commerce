@@ -11,10 +11,9 @@ import play.mvc.Result;
 import play.mvc.WebSocket;
 import views.html.admin.index;
 import websockets.ActorBackedWebSocket;
-import websockets.OrderEventWebSocketActor;
+import contexts.order.kafka.OrderEventPubSubActor;
 import websockets.WebSocketsEventBus;
-
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public class OrderDashboardController extends Controller {
     private final ActorSystem actorSystem;
@@ -30,7 +29,7 @@ public class OrderDashboardController extends Controller {
         this.sockets = new ActorBackedWebSocket() {
             @Override
             public ActorRef createWebsocketActor(ActorRef webSocketOut) {
-                return actorSystem.actorOf(Props.create(OrderEventWebSocketActor.class, webSocketOut, eventBus));
+            return actorSystem.actorOf(Props.create(OrderEventPubSubActor.class, webSocketOut, eventBus));
             }
         };
     }
