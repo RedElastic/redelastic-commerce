@@ -2,10 +2,14 @@ package controllers;
 
 import com.google.inject.Inject;
 import akka.actor.ActorSystem;
+import contexts.product.api.Product;
 import contexts.product.api.ProductService;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.concurrent.ExecutionContextExecutor;
+
+import java.util.List;
 
 public class ProductController extends Controller {
 
@@ -21,7 +25,8 @@ public class ProductController extends Controller {
     }
 
     public Result getProducts() {
-        return ok("okay!");
+        List<Product> products = ps.lookupProducts();
+        return ok(Json.toJson(products));
     }
 }
 

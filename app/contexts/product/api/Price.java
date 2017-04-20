@@ -1,4 +1,4 @@
-package contexts.pricing.api;
+package contexts.product.api;
 
 import java.text.DecimalFormat;
 
