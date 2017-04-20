@@ -1,7 +1,8 @@
 package contexts.order.api;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface OrderService {
-    void placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items);
+    UUID placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items);
 }

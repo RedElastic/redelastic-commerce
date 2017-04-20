@@ -4,11 +4,9 @@ import contexts.order.api.Order;
 import contexts.order.api.OrderService;
 import contexts.order.api.OrderedItem;
 import contexts.order.api.ShippingInfo;
-import contexts.order.db.models.OrderBean;
-import play.Logger;
-import play.libs.Json;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Implementation details, such as ebean entities, should never "leak" out of the live package.
@@ -18,8 +16,13 @@ import java.util.List;
 public class OrderServiceLive implements OrderService {
 
     @Override
-    public void placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
-        Order order = new Order(shippingInfo, items);
-        Logger.info(Json.toJson(order).toString());
+    public UUID placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
+        // TODO create ebeans
+        // 1. order UUID
+        // 2. create OrderItem ebeans & save
+        // 3. create ShippingItem ebean & save
+        // 4. create order ebean & save
+        // 5. build Order POJO and return
+        return UUID.randomUUID();
     }
 }

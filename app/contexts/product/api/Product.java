@@ -1,9 +1,11 @@
 package contexts.product.api;
 
+import java.util.UUID;
+
 public class Product {
 
     public Product(
-            Long id,
+            UUID id,
             String sku,
             String imgUrl,
             String name,
@@ -17,14 +19,14 @@ public class Product {
         this.price = price;
     }
 
-    private Long id;
+    private UUID id;
     private String sku;
     private String imgUrl;
     private String name;
     private String description;
     private Price price;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
     public String getSku() { return sku; }

@@ -52,8 +52,10 @@ paths:
         schema:
           $ref: "#/definitions/Order"
       responses:
+        200:
+          description: UUID of Order
         405:
-          description: "Invalid input"
+          description: Invalid input
 definitions:
   Product:
     type: object
@@ -65,10 +67,6 @@ definitions:
     - price
     properties:
       id:
-        type: number
-        format: long
-        example: 12
-      sku:
         type: string
         format: uuid
         example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -82,7 +80,7 @@ definitions:
         type: string
         example: http://example.com/img/image.png
       price:
-        $ref: '#/definitions/OrderedItem'
+        $ref: '#/definitions/Price'
   Order:
     type: object
     required:
@@ -139,6 +137,9 @@ definitions:
     required:
     - productId
     - quantity
+    - subtotal
+    - tax
+    - total
     properties:
       productId:
         type: string
@@ -148,6 +149,18 @@ definitions:
         type: number
         format: integer
         example: 1
+      subtotal:
+        type: number
+        format: double
+        example: 42.95
+      tax:
+        type: number
+        format: double
+        example: 5.58
+      total:
+        type: number
+        format: double
+        example: 48.53
   Price:
     type: object
     required:

@@ -14,6 +14,7 @@ import websockets.WebSocketsEventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CheckoutController extends Controller {
 
@@ -34,10 +35,14 @@ public class CheckoutController extends Controller {
         ShippingInfo shippingInfo = Json.fromJson(json.findPath("shippingInfo"), ShippingInfo.class);
         List<OrderedItem> items = new ArrayList<>();
         for (JsonNode node : json.withArray("items")) {
-            OrderedItem item = new OrderedItem(node.get("productId").asText(), node.get("quantity").asInt());
+            OrderedItem item = new OrderedItem(
+                UUID.fromString(node.get("productId").asText()),
+                node.get("quantity").asInt(),
+                new Double(42.99),
+                new Double(42.99),
+                new Double(42.99));
             items.add(item);
         }
-        orderService.placeOrder(shippingInfo, items);
-        return ok(Json.toJson("ok"));
+        return ok(Json.toJson(orderService.placeOrder(shippingInfo, items)));
     }
 }
