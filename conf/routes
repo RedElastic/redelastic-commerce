@@ -11,9 +11,6 @@ GET     /admin                      controllers.OrderDashboardController.index()
 # Test endpoint for async computation
 GET     /test/fibonacci             controllers.ApplicationController.fibonacci(limit: Integer)
 
-# Routes for websocket
-GET     /ws/orders                  controllers.OrderDashboardController.webSocket()
-
 ### NoDocs ###
 GET   /docs/swagger-ui/*file        controllers.Assets.at(path:String="/public/lib/swagger-ui", file:String)
 

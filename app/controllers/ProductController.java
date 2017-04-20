@@ -20,12 +20,8 @@ public class ProductController extends Controller {
         this.ps = ps;
     }
 
-    public Result getProduct(String id) {
-        return ok("ok!");
-    }
-
     public Result getProducts() {
-        return ok("ok!");
+        return ok("okay!");
     }
 }
 
