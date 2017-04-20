@@ -1,6 +1,5 @@
 package contexts.order.db;
 
-import contexts.order.api.Order;
 import contexts.order.api.OrderService;
 import contexts.order.api.OrderedItem;
 import contexts.order.api.ShippingInfo;
@@ -25,4 +24,5 @@ public class OrderServiceLive implements OrderService {
         // 5. build Order POJO and return
         return UUID.randomUUID();
     }
+
 }

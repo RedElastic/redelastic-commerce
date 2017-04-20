@@ -39,7 +39,6 @@ public class CheckoutController extends Controller {
                 UUID.fromString(node.get("productId").asText()),
                 node.get("quantity").asInt(),
                 new Double(42.99),
-                new Double(42.99),
                 new Double(42.99));
             items.add(item);
         }

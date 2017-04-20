@@ -137,9 +137,8 @@ definitions:
     required:
     - productId
     - quantity
+    - price
     - subtotal
-    - tax
-    - total
     properties:
       productId:
         type: string
@@ -149,18 +148,14 @@ definitions:
         type: number
         format: integer
         example: 1
+      price:
+        type: number
+        format: double
+        example: 42.95
       subtotal:
         type: number
         format: double
         example: 42.95
-      tax:
-        type: number
-        format: double
-        example: 5.58
-      total:
-        type: number
-        format: double
-        example: 48.53
   Price:
     type: object
     required:
