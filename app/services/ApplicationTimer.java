@@ -3,9 +3,10 @@ package services;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
-import javax.inject.*;
 import play.Logger;
 import play.inject.ApplicationLifecycle;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @Singleton
 public class ApplicationTimer {

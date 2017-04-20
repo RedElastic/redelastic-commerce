@@ -9,6 +9,7 @@ public class OrderEvent implements WebSocketEvent {
 
     public OrderEvent(Order order, EventType type) {
         this.order = order;
+        this.type = type;
     }
 
     public Order getOrder() {

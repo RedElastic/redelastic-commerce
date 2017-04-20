@@ -12,13 +12,14 @@ import contexts.order.db.models.OrderBean;
 public class OrderServiceLive implements OrderService {
 
     @Override
-    public void saveOrder(Order order) {
+    public void placeOrder(Order order) {
         OrderBean bean = new OrderBean();
+        bean.orderId = "666";
         bean.firstName = order.getFirstName();
         bean.lastName = order.getLastName();
         bean.emailAddress = order.getEmailAddress();
-        bean.shippingOption = order.getShippingOption();
         bean.street = order.getStreet();
+        bean.apartmentNum = order.getApartmentNum();
         bean.city = order.getCity();
         bean.province = order.getProvince();
         bean.postalCode = order.getPostalCode();

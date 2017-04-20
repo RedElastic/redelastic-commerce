@@ -9,7 +9,6 @@ import contexts.order.api.OrderEvent;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.WebSocket;
-import views.html.admin.index;
 import websockets.ActorBackedWebSocket;
 import contexts.order.kafka.OrderEventPubSubActor;
 import websockets.WebSocketsEventBus;
@@ -35,27 +34,11 @@ public class OrderDashboardController extends Controller {
     }
 
     public Result index() {
-        return ok(index.render());
+        return ok("");
     }
 
     public WebSocket webSocket() {
         return sockets.webSocket(actorSystem, materializer);
     }
 
-    public Result testUpdate() {
-        eventBus.publish(new OrderEvent(new Order(
-            System.currentTimeMillis(),
-            "first",
-            "last",
-            "email@address.com",
-            "(test order)",
-            "street",
-            "city",
-            "province",
-            "postal code"),
-            OrderEvent.EventType.Purchased
-        ));
-
-        return ok("done!");
-    }
 }

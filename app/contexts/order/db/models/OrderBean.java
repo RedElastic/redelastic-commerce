@@ -13,6 +13,9 @@ public class OrderBean extends com.avaje.ebean.Model {
     public Long id;
 
     @Constraints.Required
+    public String orderId;
+
+    @Constraints.Required
     public String firstName;
 
     @Constraints.Required
@@ -26,6 +29,8 @@ public class OrderBean extends com.avaje.ebean.Model {
 
     @Constraints.Required
     public String street;
+
+    public String apartmentNum;
 
     @Constraints.Required
     public String city;
