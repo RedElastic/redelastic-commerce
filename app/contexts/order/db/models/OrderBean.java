@@ -2,7 +2,11 @@ package contexts.order.db.models;
 
 import javax.persistence.*;
 
+import contexts.order.api.OrderedItem;
+import contexts.order.api.ShippingInfo;
 import play.data.validation.*;
+
+import java.util.List;
 
 @Entity
 public class OrderBean extends com.avaje.ebean.Model {
@@ -13,33 +17,10 @@ public class OrderBean extends com.avaje.ebean.Model {
     public Long id;
 
     @Constraints.Required
-    public String orderId;
+    public ShippingInfo shippingInfo;
 
     @Constraints.Required
-    public String firstName;
-
-    @Constraints.Required
-    public String lastName;
-
-    @Constraints.Required
-    public String emailAddress;
-
-    @Constraints.Required
-    public String shippingOption;
-
-    @Constraints.Required
-    public String street;
-
-    public String apartmentNum;
-
-    @Constraints.Required
-    public String city;
-
-    @Constraints.Required
-    public String province;
-
-    @Constraints.Required
-    public String postalCode;
+    public List<OrderedItem> items;
 
     public static Find<Long,OrderBean> find = new Find<Long,OrderBean>(){};
 

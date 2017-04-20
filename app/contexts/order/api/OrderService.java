@@ -1,5 +1,7 @@
 package contexts.order.api;
 
+import java.util.List;
+
 public interface OrderService {
-    void placeOrder(Order order);
+    void placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items);
 }

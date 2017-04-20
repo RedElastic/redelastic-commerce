@@ -2,7 +2,13 @@ package contexts.order.db;
 
 import contexts.order.api.Order;
 import contexts.order.api.OrderService;
+import contexts.order.api.OrderedItem;
+import contexts.order.api.ShippingInfo;
 import contexts.order.db.models.OrderBean;
+import play.Logger;
+import play.libs.Json;
+
+import java.util.List;
 
 /**
  * Implementation details, such as ebean entities, should never "leak" out of the live package.
@@ -12,17 +18,7 @@ import contexts.order.db.models.OrderBean;
 public class OrderServiceLive implements OrderService {
 
     @Override
-    public void placeOrder(Order order) {
-        OrderBean bean = new OrderBean();
-        bean.orderId = "666";
-        bean.firstName = order.getFirstName();
-        bean.lastName = order.getLastName();
-        bean.emailAddress = order.getEmailAddress();
-        bean.street = order.getStreet();
-        bean.apartmentNum = order.getApartmentNum();
-        bean.city = order.getCity();
-        bean.province = order.getProvince();
-        bean.postalCode = order.getPostalCode();
-        bean.insert();
+    public void placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
+        // TODO
     }
 }

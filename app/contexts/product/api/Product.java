@@ -3,7 +3,7 @@ package contexts.product.api;
 public class Product {
 
     public Product(
-            Integer id,
+            Long id,
             String sku,
             String imgUrl,
             String name,
@@ -17,14 +17,14 @@ public class Product {
         this.price = price;
     }
 
-    private Integer id;
+    private Long id;
     private String sku;
     private String imgUrl;
     private String name;
     private String description;
     private Price price;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     public String getSku() { return sku; }
