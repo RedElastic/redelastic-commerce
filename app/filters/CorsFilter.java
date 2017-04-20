@@ -11,7 +11,7 @@ import play.mvc.*;
 import play.mvc.Http.RequestHeader;
 
 /**
- * Filter ads an Access-Control-Allow-Origin header to requests for cross origin requests.
+ * Filter adds an Access-Control-Allow-Origin header to requests for cross origin requests.
  * Would be used in an API that is accessed from a browser to avoid tripping CSRF security features on another page.
  */
 
@@ -32,7 +32,7 @@ public class CorsFilter extends Filter {
         RequestHeader requestHeader) {
 
         return next.apply(requestHeader).thenApplyAsync(
-            result -> result.withHeader("Access-Control-Allow-Origin", "http://allowed-host.com"),
+            result -> result.withHeader("Access-Control-Allow-Origin", "http://localhost:9000"),
             exec
         );
     }

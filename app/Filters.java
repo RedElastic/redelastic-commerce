@@ -39,10 +39,8 @@ public class Filters implements HttpFilters {
     public EssentialFilter[] filters() {
         if(env.mode().equals(Mode.PROD)){ //if in prod mode, allow response code monitoring
             return new EssentialFilter[] { responseCodeMonitorFilter};
-        } else if (env.mode().equals(Mode.TEST)) { //If in test mode, allow CORS
-          return new EssentialFilter[] { corsFilter };
       } else {
-          return new EssentialFilter[] { };
+          return new EssentialFilter[] { corsFilter };
       }
     }
 
