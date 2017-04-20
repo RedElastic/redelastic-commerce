@@ -12,4 +12,7 @@ public class Order {
         this.items = items;
     }
 
+    public ShippingInfo getShippingInfo() { return shippingInfo; }
+
+    public List<OrderedItem> getItems() { return items; }
 }

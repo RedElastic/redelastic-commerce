@@ -19,6 +19,7 @@ public class OrderServiceLive implements OrderService {
 
     @Override
     public void placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
-        // TODO
+        Order order = new Order(shippingInfo, items);
+        Logger.info(Json.toJson(order).toString());
     }
 }

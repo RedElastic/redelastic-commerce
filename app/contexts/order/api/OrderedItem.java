@@ -10,4 +10,8 @@ public class OrderedItem {
     }
 
     public OrderedItem() { }
+
+    public String getProductId() { return productId; }
+
+    public Integer getQuantity() { return quantity; }
 }

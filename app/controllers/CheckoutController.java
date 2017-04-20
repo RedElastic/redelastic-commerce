@@ -37,7 +37,6 @@ public class CheckoutController extends Controller {
             OrderedItem item = new OrderedItem(node.get("productId").asText(), node.get("quantity").asInt());
             items.add(item);
         }
-        Logger.info("size: " + items.size());
         orderService.placeOrder(shippingInfo, items);
         return ok(Json.toJson("ok"));
     }
