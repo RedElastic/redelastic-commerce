@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   evolutions,
+  filters,
   "io.javaslang" % "javaslang" % "2.0.3",
   "org.webjars" % "swagger-ui" % "2.2.0"
 )

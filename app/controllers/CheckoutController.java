@@ -1,7 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import contexts.order.api.OrderService;
+import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,8 +24,8 @@ public class CheckoutController extends Controller {
     }
 
     public Result checkout() {
-
-        return ok("okay!");
-
+        JsonNode json = request().body().asJson();
+        System.out.println(json);
+        return ok(Json.toJson("ok"));
     }
 }
