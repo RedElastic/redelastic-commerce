@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CheckoutController extends Controller {
+public class OrderController extends Controller {
 
     private final OrderService orderService;
     private final WebSocketsEventBus eventBus;
@@ -25,7 +25,7 @@ public class CheckoutController extends Controller {
     HttpExecutionContext ec; // must have in scope when using CompletionStage<T> inside actions
 
     @Inject
-    public CheckoutController(OrderService orderService, WebSocketsEventBus eventBus) {
+    public OrderController(OrderService orderService, WebSocketsEventBus eventBus) {
         this.orderService = orderService;
         this.eventBus = eventBus;
     }
@@ -43,5 +43,9 @@ public class CheckoutController extends Controller {
             items.add(item);
         }
         return ok(Json.toJson(orderService.placeOrder(shippingInfo, items)));
+    }
+
+    public Result findOrder(String orderId) {
+        return ok(Json.toJson(orderService.findOrder(UUID.fromString(orderId))));
     }
 }

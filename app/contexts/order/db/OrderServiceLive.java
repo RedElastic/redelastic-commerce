@@ -1,10 +1,13 @@
 package contexts.order.db;
 
+import contexts.order.api.Order;
 import contexts.order.api.OrderService;
 import contexts.order.api.OrderedItem;
 import contexts.order.api.ShippingInfo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -14,15 +17,18 @@ import java.util.UUID;
  */
 public class OrderServiceLive implements OrderService {
 
+    Map<UUID, Order> orders = new HashMap<>();
+
     @Override
     public UUID placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
-        // TODO create ebeans
-        // 1. order UUID
-        // 2. create OrderItem ebeans & save
-        // 3. create ShippingItem ebean & save
-        // 4. create order ebean & save
-        // 5. build Order POJO and return
-        return UUID.randomUUID();
+        UUID orderId = UUID.randomUUID();
+        orders.put(orderId, new Order(orderId, shippingInfo, items)); // TODO generate totals
+        return orderId;
+    }
+
+    @Override
+    public Order findOrder(UUID orderId) {
+        return orders.get(orderId);
     }
 
 }

@@ -6,26 +6,18 @@ info:
   # put the contact info for your development or API team
   contact:
     email: kevin.webber@redelastic.com
-
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-
 # all paths will be relative to the basePath specified
 # basePath: /v1
-
-# tags are used for organizing operations
-tags:
-- name: ui
-  description: operations for ReCommerce UI
-# schemes:
-# - http
 paths:
   /api/products:
     get:
-      tags:
-      - ui
       summary: Return a list of all products
+      operationId: getProducts
+      tags:
+        - products
       produces:
       - application/json
       responses:
@@ -35,11 +27,32 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Product'
-  /api/checkout:
-    post:
+  /api/order/{orderId}:
+    get:
+      summary: Return an order if found
+      operationId: findOrder
       tags:
-      - ui
+        - orders
+      produces:
+      - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: derp
+          required: true
+          type: string
+          format: UUID
+      responses:
+        200:
+          description: an order
+          schema:
+            $ref: '#/definitions/Order'
+  /api/order:
+    post:
       summary: Place a new order
+      operationId: placeOrder
+      tags:
+        - orders
       consumes:
       - "application/json"
       produces:

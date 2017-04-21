@@ -5,4 +5,5 @@ import java.util.UUID;
 
 public interface OrderService {
     UUID placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items);
+    Order findOrder(UUID orderId);
 }

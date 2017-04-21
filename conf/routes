@@ -3,7 +3,8 @@
 # ~~~~
 
 GET     /api/products               controllers.ProductController.getProducts()
-POST    /api/checkout               controllers.CheckoutController.checkout()
+GET     /api/order/:id              controllers.OrderController.findOrder(id: String)
+POST    /api/order                  controllers.OrderController.checkout()
 
 # Admin Controller
 GET     /admin                      controllers.OrderDashboardController.index()
