@@ -2,7 +2,7 @@ import com.google.inject.AbstractModule;
 import java.time.Clock;
 
 import contexts.order.api.OrderService;
-import contexts.order.db.OrderServiceLive;
+import contexts.order.stub.OrderServiceLive;
 import play.libs.akka.AkkaGuiceSupport;
 
 import contexts.monitoring.api.MonitoringService;

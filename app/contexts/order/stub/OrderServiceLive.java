@@ -1,9 +1,6 @@
-package contexts.order.db;
+package contexts.order.stub;
 
-import contexts.order.api.Order;
-import contexts.order.api.OrderService;
-import contexts.order.api.OrderedItem;
-import contexts.order.api.ShippingInfo;
+import contexts.order.api.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +19,18 @@ public class OrderServiceLive implements OrderService {
     @Override
     public UUID placeOrder(ShippingInfo shippingInfo, List<OrderedItem> items) {
         UUID orderId = UUID.randomUUID();
-        orders.put(orderId, new Order(orderId, shippingInfo, items)); // TODO generate totals
+
+        Double subtotal = 0.0;
+        for (OrderedItem item: items) {
+            subtotal = subtotal + item.getSubtotal();
+        }
+
+        Double taxes = subtotal * 0.13;
+        Double total = subtotal + taxes;
+
+        OrderTotals orderTotals = new OrderTotals(subtotal, taxes, total);
+
+        orders.put(orderId, new Order(orderId, shippingInfo, items, orderTotals));
         return orderId;
     }
 
