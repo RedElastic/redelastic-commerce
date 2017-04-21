@@ -1,20 +1,24 @@
 package contexts.cart;
 
-import contexts.product.api.Product;
-import javaslang.Tuple2;
+import contexts.cart.api.CartItem;
 import javaslang.collection.Set;
 
-import java.io.Serializable;
-
-public class UpdateCart implements Serializable {
+public class UpdateCart implements CartMessage {
     private static final long serialVersionUID = 1L;
-    private final Set<Tuple2<Product, Integer>> contents;
+    private final Set<CartItem> cartItems;
+    private final String cartId;
 
-    public UpdateCart(Set<Tuple2<Product, Integer>> contents) {
-        this.contents = contents;
+    public UpdateCart(String cartId, Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
+        this.cartId = cartId;
     }
 
-    public Set<Tuple2<Product, Integer>> getContents() {
-        return contents;
+    public Set<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    @Override
+    public String getUserId() {
+        return cartId;
     }
 }

@@ -6,6 +6,7 @@ GET     /api/product/:id            controllers.ProductController.getProduct(id:
 GET     /api/products               controllers.ProductController.getProducts()
 GET     /api/order/:id              controllers.OrderController.findOrder(id: String)
 POST    /api/order                  controllers.OrderController.checkout()
+GET     /api/cart                   controllers.CartController.get(userId: String)
 
 # Admin Controller
 GET     /admin                      controllers.OrderDashboardController.index()

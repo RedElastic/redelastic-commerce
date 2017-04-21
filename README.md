@@ -6,7 +6,14 @@ Welcome to RedElastic Commerce, a reference application that demonstrates a broa
 
 Prior to running the application, you will need to have a Postgres instance running. If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/).
 
-After you have Postgres running, you can execute `sbt run` or `activator run`
+And you'll need to have cassandra:
+
+```sh
+brew install cassandra
+cassandra
+```
+
+After you have Postgres and Cassandra running, you can execute `sbt run` or `activator run`
 
 ## Testing the Application
 

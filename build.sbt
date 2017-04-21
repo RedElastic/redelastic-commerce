@@ -14,9 +14,11 @@ libraryDependencies ++= Seq(
   javaWs,
   evolutions,
   filters,
-  "com.typesafe.akka" %% "akka-cluster" % "2.5.0",
-  "com.typesafe.akka" %% "akka-persistence" % "2.5.0",
-  "com.typesafe.akka" %% "akka-persistence-cassandra" % "0.51",
+  "com.typesafe.akka" %% "akka-cluster" % "2.4.17",
+  "com.typesafe.akka" %% "akka-persistence" % "2.4.17",
+  "com.typesafe.akka" %% "akka-cluster-sharding" % "2.4.17",
+  "com.typesafe.akka" %% "akka-distributed-data-experimental" % "2.4.17",
+  "com.typesafe.akka" %% "akka-persistence-cassandra" % "0.26",
   "io.javaslang" % "javaslang" % "2.0.3",
   "org.webjars" % "swagger-ui" % "2.2.0"
 )

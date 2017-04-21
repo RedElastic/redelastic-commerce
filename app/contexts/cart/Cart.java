@@ -1,53 +1,81 @@
 package contexts.cart;
 
+import akka.actor.PoisonPill;
+import akka.actor.ReceiveTimeout;
+import akka.cluster.sharding.ShardRegion;
+import akka.japi.pf.ReceiveBuilder;
 import akka.persistence.AbstractPersistentActor;
-import contexts.product.api.Product;
-import javaslang.Tuple2;
+import contexts.cart.api.CartItem;
 import javaslang.collection.HashSet;
 import javaslang.collection.Set;
+import scala.PartialFunction;
+import scala.concurrent.duration.Duration;
+import scala.runtime.BoxedUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Cart extends AbstractPersistentActor {
 
-    private final String userId;
-    Set<Tuple2<Product, Integer>> contents;
+    //State!
+    Set<CartItem> cartItems;
 
-    public Cart(String userId) {
-        this.userId = userId;
+    public Cart() {
+        System.out.println("starting a cart! " + self().path());
     }
 
     @Override
     public String persistenceId() {
-        return userId;
+        return "Cart-" + self().path().name();
     }
 
     @Override
-    public Receive createReceiveRecover() {
-        return receiveBuilder()
+    public PartialFunction<Object, BoxedUnit> receiveRecover() {
+        return ReceiveBuilder
                 .match(EmptyCart.class, msg -> emptyCart())
-                .match(UpdateCart.class, msg -> contents = msg.getContents())
+                .match(UpdateCart.class, msg -> cartItems = msg.getCartItems())
                 .build();
     }
 
     @Override
-    public Receive createReceive() {
-        return receiveBuilder()
-                .match(EmptyCart.class, msg -> {
-                    persist(msg, (EmptyCart m) -> emptyCart());
-                })
-                .match(UpdateCart.class, msg -> {
-                    persist(msg, (UpdateCart m) -> setContents(m.getContents()));
-                })
-                .match(GetContents.class, msg -> {
-                    sender().tell(contents, self());
-                })
+    public PartialFunction<Object, BoxedUnit> receiveCommand() {
+        return ReceiveBuilder
+                .match(EmptyCart.class, msg ->
+                        persist(msg, (EmptyCart m) ->
+                        {
+                            emptyCart();
+                            sender().tell("done", null);
+                        }))
+                .match(UpdateCart.class, msg ->
+                        persist(msg, (UpdateCart m) ->
+                        {
+                            setCartItems(m.getCartItems());
+                            sender().tell("done", null);
+                        }))
+                .match(GetContents.class, msg ->
+                        sender().tell(cartItems, self())
+                )
+                .matchEquals(ReceiveTimeout.getInstance(), msg -> passivate())
                 .build();
     }
+
 
     private void emptyCart() {
-        this.contents = HashSet.empty();
+        this.cartItems = HashSet.empty();
     }
 
-    private void setContents(Set<Tuple2<Product, Integer>> contents) {
-        this.contents = contents;
+    private void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    @Override
+    public void preStart() throws Exception {
+        super.preStart();
+        //Passivation after 120s. TODO make configurable
+        context().setReceiveTimeout(Duration.create(120, SECONDS));
+    }
+
+    private void passivate() {
+        getContext().parent().tell(
+                new ShardRegion.Passivate(PoisonPill.getInstance()), self());
     }
 }

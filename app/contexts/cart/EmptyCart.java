@@ -1,7 +1,16 @@
 package contexts.cart;
 
-import java.io.Serializable;
+public class EmptyCart implements CartMessage {
 
-public class EmptyCart implements Serializable {
     private static final long serialVersionUID = 1L;
+    private final String userId;
+
+    public EmptyCart(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String getUserId() {
+        return userId;
+    }
 }

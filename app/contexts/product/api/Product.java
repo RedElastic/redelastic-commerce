@@ -1,8 +1,9 @@
 package contexts.product.api;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Product {
+public class Product implements Serializable {
 
     public Product(
             UUID id,
