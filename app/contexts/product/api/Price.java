@@ -1,8 +1,9 @@
 package contexts.product.api;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Price {
+public class Price implements Serializable {
 
     private static DecimalFormat df2 = new DecimalFormat(".##");
 
