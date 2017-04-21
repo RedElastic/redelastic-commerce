@@ -10,6 +10,7 @@ import play.mvc.Result;
 import scala.concurrent.ExecutionContextExecutor;
 
 import java.util.List;
+import java.util.UUID;
 
 public class ProductController extends Controller {
 
@@ -27,6 +28,10 @@ public class ProductController extends Controller {
     public Result getProducts() {
         List<Product> products = ps.lookupProducts();
         return ok(Json.toJson(products));
+    }
+
+    public Result getProduct(String id) {
+        return ok(Json.toJson(ps.getProduct(UUID.fromString(id))));
     }
 }
 

@@ -8,11 +8,13 @@ public class Order {
     private UUID id;
     private final ShippingInfo shippingInfo;
     private final List<OrderedItem> items;
+    private final OrderTotals orderTotals;
 
-    public Order(UUID id, ShippingInfo shippingInfo, List<OrderedItem> items) {
+    public Order(UUID id, ShippingInfo shippingInfo, List<OrderedItem> items, OrderTotals orderTotals) {
         this.id = id;
         this.shippingInfo = shippingInfo;
         this.items = items;
+        this.orderTotals = orderTotals;
     }
 
     public ShippingInfo getShippingInfo() { return shippingInfo; }
@@ -20,4 +22,6 @@ public class Order {
     public List<OrderedItem> getItems() { return items; }
 
     public UUID getId() { return id; }
+
+    public OrderTotals getOrderTotals() { return orderTotals; }
 }

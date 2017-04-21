@@ -27,6 +27,26 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Product'
+  /api/product/{productId}:
+    get:
+      summary: Find a product with UUID
+      operationId: getProduct
+      tags:
+        - products
+      produces:
+      - application/json
+      parameters:
+        - name: productId
+          in: path
+          description: derp
+          required: true
+          type: string
+          format: UUID
+      responses:
+        200:
+          description: a product
+          schema:
+            $ref: '#/definitions/Product'
   /api/order/{orderId}:
     get:
       summary: Return an order if found
