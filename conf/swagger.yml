@@ -1,0 +1,185 @@
+swagger: '2.0'
+info:
+  description: ReCommerce API
+  version: 1.0.0
+  title: ReCommerce API
+  # put the contact info for your development or API team
+  contact:
+    email: kevin.webber@redelastic.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+# all paths will be relative to the basePath specified
+# basePath: /v1
+paths:
+  /api/products:
+    get:
+      summary: Return a list of all products
+      operationId: getProducts
+      tags:
+        - products
+      produces:
+      - application/json
+      responses:
+        200:
+          description: a list of all products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+  /api/order/{orderId}:
+    get:
+      summary: Return an order if found
+      operationId: findOrder
+      tags:
+        - orders
+      produces:
+      - application/json
+      parameters:
+        - name: orderId
+          in: path
+          description: derp
+          required: true
+          type: string
+          format: UUID
+      responses:
+        200:
+          description: an order
+          schema:
+            $ref: '#/definitions/Order'
+  /api/order:
+    post:
+      summary: Place a new order
+      operationId: placeOrder
+      tags:
+        - orders
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        200:
+          description: UUID of Order
+        405:
+          description: Invalid input
+definitions:
+  Product:
+    type: object
+    required:
+    - id
+    - name
+    - description
+    - imgUrl
+    - price
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Some Product
+      description:
+        type: string
+        example: This is some description of a product. It's really great.
+      imgUrl:
+        type: string
+        example: http://example.com/img/image.png
+      price:
+        $ref: '#/definitions/Price'
+  Order:
+    type: object
+    required:
+    - shippingInfo
+    - items
+    properties:
+      shippingInfo:
+        $ref: '#/definitions/ShippingInfo'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/OrderedItem'
+  ShippingInfo:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - emailAddress
+    - street
+    - city
+    - province
+    - country
+    - postalCode
+    properties:
+      firstName:
+        type: string
+        example: Joe
+      lastName:
+        type: string
+        example: Smith
+      emailAddress:
+        type: string
+        example: joe@smith.com
+      street:
+        type: string
+        example: 700 Joe Smith Lane
+      apartmentNum:
+        type: string
+        example: 8000
+      city:
+        type: string
+        example: Toronto
+      province:
+        type: string
+        example: Ontario
+      country:
+        type: string
+        example: Canada
+      postalCode:
+        type: string
+        example: M5A0E3
+  OrderedItem:
+    type: object
+    required:
+    - productId
+    - quantity
+    - price
+    - subtotal
+    properties:
+      productId:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      quantity:
+        type: number
+        format: integer
+        example: 1
+      price:
+        type: number
+        format: double
+        example: 42.95
+      subtotal:
+        type: number
+        format: double
+        example: 42.95
+  Price:
+    type: object
+    required:
+    - dollars
+    - cents
+    properties:
+      dollars:
+        type: number
+        format: integer
+        example: 15
+      cents:
+        type: number
+        format: integer
+        example: 99

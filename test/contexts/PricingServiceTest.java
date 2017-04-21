@@ -2,7 +2,7 @@ package contexts;
 
 import static org.junit.Assert.*;
 
-import contexts.pricing.api.Price;
+import contexts.product.api.Price;
 import contexts.pricing.api.PricingService;
 import contexts.pricing.stub.PricingServiceStub;
 import javaslang.control.Option;
