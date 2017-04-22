@@ -1,11 +1,9 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
-import contexts.order.api.OrderedItem;
 import contexts.product.api.Product;
 import contexts.product.api.ProductService;
 import play.libs.Json;

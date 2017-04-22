@@ -7,13 +7,11 @@ public class Product implements Serializable {
 
     public Product(
             UUID id,
-            String sku,
             String imgUrl,
             String name,
             String description,
             Price price) {
         this.id = id;
-        this.sku = sku;
         this.imgUrl = imgUrl;
         this.name = name;
         this.description = description;
@@ -21,7 +19,6 @@ public class Product implements Serializable {
     }
 
     private UUID id;
-    private String sku;
     private String imgUrl;
     private String name;
     private String description;
@@ -30,7 +27,6 @@ public class Product implements Serializable {
     public UUID getId() {
         return id;
     }
-    public String getSku() { return sku; }
     public String getImgUrl() { return imgUrl; }
     public String getName() {
         return name;

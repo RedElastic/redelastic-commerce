@@ -32,7 +32,27 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/CartItem'
+              type: object
+              properties:
+                productId:
+                  type: string
+                  format: UUID
+                  example: 456e4567-e89b-12d3-a456-426655440001
+                name:
+                  type: string
+                  example: Big Bob's BBQ
+                description:
+                  type: string
+                  example: You ain't seen nothing like this!
+                quantity:
+                  type: number
+                  format: integer
+                  example: 99
+                price:
+                  type: number
+                  format: double
+                  example: 49.95
+
     put:
       summary: Update a user's cart
       operationId: updateCart
@@ -125,7 +145,7 @@ paths:
         200:
           description: an order
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/GetOrder'
   /api/order:
     post:
       summary: Place a new order
@@ -142,7 +162,7 @@ paths:
         description: ""
         required: true
         schema:
-          $ref: "#/definitions/Order"
+          $ref: "#/definitions/PostOrder"
       responses:
         200:
           description: UUID of Order
@@ -173,7 +193,7 @@ definitions:
         example: http://example.com/img/image.png
       price:
         $ref: '#/definitions/Price'
-  Order:
+  PostOrder:
     type: object
     required:
     - shippingInfo
@@ -185,6 +205,34 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/OrderedItem'
+  GetOrder:
+    type: object
+    required:
+    - shippingInfo
+    - items
+    - totals
+    properties:
+      shippingInfo:
+        $ref: '#/definitions/ShippingInfo'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/OrderedItem'
+      totals:
+        type: object
+        properties:
+          subtotal:
+            type: number
+            format: double
+            example: 99.95
+          taxes:
+            type: number
+            format: double
+            example: 13.95
+          total:
+            type: number
+            format: double
+            example: 113.95
   ShippingInfo:
     type: object
     required:
@@ -262,23 +310,6 @@ definitions:
         type: number
         format: integer
         example: 99
-  CartItem:
-    type: object
-    required:
-    - productId
-    - quantity
-    - price
-    properties:
-      productId:
-        type: string
-        format: UUID
-        example: 456e4567-e89b-12d3-a456-426655440001
-      quantity:
-        type: number
-        format: integer
-        example: 99
-      price:
-          $ref: '#/definitions/Price'
   Cart:
     type: object
     required:
