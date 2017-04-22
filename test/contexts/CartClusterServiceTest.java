@@ -1,7 +1,7 @@
 package contexts;
 
 import akka.actor.ActorSystem;
-import contexts.cart.CartClusterService;
+import contexts.cart.cluster.CartClusterService;
 import contexts.cart.api.CartItem;
 import javaslang.collection.HashSet;
 import javaslang.collection.Set;

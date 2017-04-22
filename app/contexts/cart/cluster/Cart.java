@@ -1,4 +1,4 @@
-package contexts.cart;
+package contexts.cart.cluster;
 
 import akka.actor.PoisonPill;
 import akka.actor.ReceiveTimeout;

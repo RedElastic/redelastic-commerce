@@ -1,4 +1,4 @@
-package contexts.cart;
+package contexts.cart.cluster;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -8,17 +8,21 @@ import akka.cluster.sharding.ClusterSharding;
 import akka.cluster.sharding.ClusterShardingSettings;
 import akka.cluster.sharding.ShardRegion;
 import akka.pattern.PatternsCS;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
 import javaslang.collection.Set;
 
 import java.util.concurrent.CompletionStage;
 
+@Singleton
 public class CartClusterService implements CartService {
 
     private final Integer numberOfShards = 100; //don't change after running!!
     private final ActorRef shardRegion;
 
+    @Inject
     public CartClusterService(ActorSystem system) {
         ShardRegion.MessageExtractor extractor = new ShardRegion.MessageExtractor() {
             @Override

@@ -2,11 +2,18 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Products
 GET     /api/product/:id            controllers.ProductController.getProduct(id: String)
 GET     /api/products               controllers.ProductController.getProducts()
+
+# Orders
 GET     /api/order/:id              controllers.OrderController.findOrder(id: String)
 POST    /api/order                  controllers.OrderController.checkout()
-GET     /api/cart                   controllers.CartController.get(userId: String)
+
+# Cart
+GET     /api/cart                   controllers.CartController.getCart(userId: String ?= "")
+DELETE  /api/cart                   controllers.CartController.deleteCart(userId: String ?= "")
+PUT     /api/cart                   controllers.CartController.updateCart()
 
 # Admin Controller
 GET     /admin                      controllers.OrderDashboardController.index()
