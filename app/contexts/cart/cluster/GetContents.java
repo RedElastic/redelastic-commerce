@@ -1,4 +1,4 @@
-package contexts.cart;
+package contexts.cart.cluster;
 
 public class GetContents implements CartMessage {
     private final String userId;

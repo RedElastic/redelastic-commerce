@@ -1,4 +1,4 @@
-package contexts.cart;
+package contexts.cart.cluster;
 
 import java.io.Serializable;
 

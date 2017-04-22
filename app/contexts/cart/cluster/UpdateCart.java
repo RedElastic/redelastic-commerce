@@ -1,4 +1,4 @@
-package contexts.cart;
+package contexts.cart.cluster;
 
 import contexts.cart.api.CartItem;
 import javaslang.collection.Set;
