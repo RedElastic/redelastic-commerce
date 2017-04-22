@@ -1,19 +1,20 @@
 package contexts.cart.cluster;
 
 import contexts.cart.api.CartItem;
-import javaslang.collection.Set;
+
+import java.util.List;
 
 public class UpdateCart implements CartMessage {
     private static final long serialVersionUID = 1L;
-    private final Set<CartItem> cartItems;
+    private final List<CartItem> cartItems;
     private final String cartId;
 
-    public UpdateCart(String cartId, Set<CartItem> cartItems) {
+    public UpdateCart(String cartId, List<CartItem> cartItems) {
         this.cartItems = cartItems;
         this.cartId = cartId;
     }
 
-    public Set<CartItem> getCartItems() {
+    public List<CartItem> getCartItems() {
         return cartItems;
     }
 
