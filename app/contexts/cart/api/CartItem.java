@@ -4,29 +4,31 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class CartItem implements Serializable {
-    final private UUID id;
+    final private UUID productId;
     final private Integer quantity;
     final private Double price;
 
-    public CartItem(UUID id, Integer quantity, Double price) {
-        this.id = id;
+    public CartItem(UUID productId, Integer quantity, Double price) {
+        this.productId = productId;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getProductId() {
+        return productId;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
+    public Integer getQuantity() { return quantity; }
 
-    /**
-     * Probably should be Dollars and Cents as Integers (See Price in the Product Domain)
-     * @return
-     */
     public Double getPrice() {
         return price;
+    }
+
+    public boolean equals(Object o) {
+        return (o instanceof CartItem) && ((CartItem) o).getProductId().equals(this.getProductId());
+    }
+
+    public int hashCode() {
+        return productId.hashCode();
     }
 }

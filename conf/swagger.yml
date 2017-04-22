@@ -55,10 +55,10 @@ paths:
         405:
           description: Invalid user
     delete:
-      summary: Return a user's cart
+      summary: Delete a user's cart
       operationId: deleteCart
       tags:
-        - cart
+      - cart
       produces:
       - application/json
       parameters:
@@ -67,6 +67,7 @@ paths:
           description: derp
           required: true
           type: string
+          format: UUID
       responses:
         200:
           description: OK
@@ -287,7 +288,7 @@ definitions:
       userId:
         type: string
         format: UUID
-        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        example: d290f666-6c54-4b01-90e6-d701748f0666
       items:
         type: array
         items:

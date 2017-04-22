@@ -6,18 +6,18 @@ import akka.cluster.sharding.ShardRegion;
 import akka.japi.pf.ReceiveBuilder;
 import akka.persistence.AbstractPersistentActor;
 import contexts.cart.api.CartItem;
-import javaslang.collection.HashSet;
-import javaslang.collection.Set;
 import scala.PartialFunction;
 import scala.concurrent.duration.Duration;
 import scala.runtime.BoxedUnit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Cart extends AbstractPersistentActor {
 
-    //State!
-    Set<CartItem> cartItems = HashSet.empty();
+    List<CartItem> cartItems = new ArrayList<>();
 
     public Cart() {
         System.out.println("starting a cart! " + self().path());
@@ -60,10 +60,10 @@ public class Cart extends AbstractPersistentActor {
 
 
     private void emptyCart() {
-        this.cartItems = HashSet.empty();
+        this.cartItems = new ArrayList<>();
     }
 
-    private void setCartItems(Set<CartItem> cartItems) {
+    private void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 

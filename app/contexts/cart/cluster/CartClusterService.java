@@ -12,8 +12,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
-import javaslang.collection.Set;
 
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 @Singleton
@@ -63,7 +63,6 @@ public class CartClusterService implements CartService {
         /**
          * Very basic shutdown hook. Akka 2.5 has improved shutdown semantics but this will do the job for now.
          */
-
         system.registerOnTermination(() -> {
             shardRegion.tell(ShardRegion.gracefulShutdownInstance(), null);
             try {
@@ -83,14 +82,14 @@ public class CartClusterService implements CartService {
     }
 
     @Override
-    public CompletionStage updateCartItems(String userId, Set<CartItem> cartItems){
+    public CompletionStage updateCartItems(String userId, List<CartItem> cartItems){
         return PatternsCS.ask(shardRegion, new UpdateCart(userId, cartItems), 2000);
     }
 
     @Override
-    public CompletionStage<Set<CartItem>> getCartContents(String userId){
+    public CompletionStage<List<CartItem>> getCartContents(String userId){
         CompletionStage result = PatternsCS.ask(shardRegion, new GetContents(userId), 2000);
-        return (CompletionStage<Set<CartItem>>) result;
+        return (CompletionStage<List<CartItem>>) result;
     }
 }
 

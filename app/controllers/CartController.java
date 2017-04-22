@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
-import javaslang.collection.HashSet;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
-
-import javaslang.collection.Set;
 
 public class CartController extends Controller {
     final private CartService service;
@@ -22,24 +22,22 @@ public class CartController extends Controller {
     }
 
     public CompletionStage<Result> getCart(String userId) {
-        System.out.println("userId: " + userId);
-        return service.getCartContents(userId).thenApply(cart -> ok(Json.toJson(cart.toJavaSet())));
+        return service.getCartContents(userId).thenApply(cart -> ok(Json.toJson(cart)));
     }
 
-    public Result updateCart() {
+    public CompletionStage<Result> updateCart() {
         JsonNode json = request().body().asJson();
         String userId = json.get("userId").asText();
-        System.out.println("userId: " + userId);
-        Set<CartItem> items = HashSet.empty();
-        for (JsonNode node : json.withArray("items")) {
-            CartItem item = new CartItem(
-                UUID.fromString(node.get("productId").asText()),
-                node.get("quantity").asInt(),
-                node.get("price").asDouble());
-            items.add(item);
+        List<CartItem> cartItems = new ArrayList<>();
+        JsonNode nodes = json.get("items");
+
+        for (JsonNode node : nodes) {
+            CartItem item = new CartItem(UUID.fromString(node.get("productId").asText()), node.get("quantity").asInt(), node.get("price").asDouble());
+            cartItems.add(item);
         }
-        service.updateCartItems(userId, items);
-        return ok();
+
+        service.updateCartItems(userId, cartItems);
+        return service.getCartContents(userId).thenApply(cart -> ok());
     }
 
     public Result deleteCart(String userId) {
