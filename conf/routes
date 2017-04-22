@@ -3,11 +3,11 @@
 # ~~~~
 
 # Products
-GET     /api/product/:id            controllers.ProductController.getProduct(id: String)
+GET     /api/product/:productId     controllers.ProductController.getProduct(productId: String)
 GET     /api/products               controllers.ProductController.getProducts()
 
 # Orders
-GET     /api/order/:id              controllers.OrderController.findOrder(id: String)
+GET     /api/order/:orderId         controllers.OrderController.findOrder(orderId: String)
 POST    /api/order                  controllers.OrderController.checkout()
 
 # Cart

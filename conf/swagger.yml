@@ -12,6 +12,64 @@ info:
 # all paths will be relative to the basePath specified
 # basePath: /v1
 paths:
+  /api/cart:
+    get:
+      summary: Return a user's cart
+      operationId: getCart
+      tags:
+        - cart
+      produces:
+      - application/json
+      parameters:
+        - name: userId
+          in: query
+          description: derp
+          required: true
+          type: string
+      responses:
+        200:
+          description: a user's cart
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CartItem'
+    put:
+      summary: Update a user's cart
+      operationId: updateCart
+      tags:
+        - cart
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Cart"
+      responses:
+        200:
+          description: OK
+        405:
+          description: Invalid user
+    delete:
+      summary: Return a user's cart
+      operationId: deleteCart
+      tags:
+        - cart
+      produces:
+      - application/json
+      parameters:
+        - name: userId
+          in: query
+          description: derp
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
   /api/products:
     get:
       summary: Return a list of all products
@@ -203,3 +261,34 @@ definitions:
         type: number
         format: integer
         example: 99
+  CartItem:
+    type: object
+    required:
+    - productId
+    - quantity
+    - price
+    properties:
+      productId:
+        type: string
+        format: UUID
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      quantity:
+        type: number
+        format: integer
+        example: 99
+      price:
+          $ref: '#/definitions/Price'
+  Cart:
+    type: object
+    required:
+    - userId
+    - items
+    properties:
+      userId:
+        type: string
+        format: UUID
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/OrderedItem'

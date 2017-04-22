@@ -17,7 +17,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class Cart extends AbstractPersistentActor {
 
     //State!
-    Set<CartItem> cartItems;
+    Set<CartItem> cartItems = HashSet.empty();
 
     public Cart() {
         System.out.println("starting a cart! " + self().path());

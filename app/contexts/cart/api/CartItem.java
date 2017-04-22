@@ -5,12 +5,12 @@ import java.util.UUID;
 
 public class CartItem implements Serializable {
     final private UUID id;
-    final private Integer qty;
+    final private Integer quantity;
     final private Double price;
 
-    public CartItem(UUID id, Integer qty, Double price) {
+    public CartItem(UUID id, Integer quantity, Double price) {
         this.id = id;
-        this.qty = qty;
+        this.quantity = quantity;
         this.price = price;
     }
 
@@ -18,8 +18,8 @@ public class CartItem implements Serializable {
         return id;
     }
 
-    public Integer getQty() {
-        return qty;
+    public Integer getQuantity() {
+        return quantity;
     }
 
     /**
