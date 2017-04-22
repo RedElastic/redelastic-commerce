@@ -25,7 +25,7 @@ public class CartController extends Controller {
         return service.getCartContents(userId).thenApply(cart -> ok(Json.toJson(cart)));
     }
 
-    public CompletionStage<Result> updateCart() {
+    public Result updateCart() {
         JsonNode json = request().body().asJson();
         String userId = json.get("userId").asText();
         List<CartItem> cartItems = new ArrayList<>();
@@ -35,9 +35,8 @@ public class CartController extends Controller {
             CartItem item = new CartItem(UUID.fromString(node.get("productId").asText()), node.get("quantity").asInt(), node.get("price").asDouble());
             cartItems.add(item);
         }
-
         service.updateCartItems(userId, cartItems);
-        return service.getCartContents(userId).thenApply(cart -> ok());
+        return ok();
     }
 
     public Result deleteCart(String userId) {
