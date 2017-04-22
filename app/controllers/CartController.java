@@ -1,20 +1,17 @@
 package controllers;
 
-import akka.actor.ActorSystem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
-import contexts.cart.cluster.CartClusterService;
-import contexts.order.api.OrderedItem;
-import contexts.order.api.ShippingInfo;
+import javaslang.collection.HashSet;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletionStage;
+
+import javaslang.collection.Set;
 
 public class CartController extends Controller {
     final private CartService service;
@@ -24,14 +21,16 @@ public class CartController extends Controller {
         this.service = service;
     }
 
-    public Result getCart(String userId) {
-        return ok(Json.toJson(service.getCartContents(userId)));
+    public CompletionStage<Result> getCart(String userId) {
+        System.out.println("userId: " + userId);
+        return service.getCartContents(userId).thenApply(cart -> ok(Json.toJson(cart.toJavaSet())));
     }
 
     public Result updateCart() {
         JsonNode json = request().body().asJson();
         String userId = json.get("userId").asText();
-        List<CartItem> items = new ArrayList<>();
+        System.out.println("userId: " + userId);
+        Set<CartItem> items = HashSet.empty();
         for (JsonNode node : json.withArray("items")) {
             CartItem item = new CartItem(
                 UUID.fromString(node.get("productId").asText()),
@@ -39,7 +38,8 @@ public class CartController extends Controller {
                 node.get("price").asDouble());
             items.add(item);
         }
-        return ok(Json.toJson(service.getCartContents(userId)));
+        service.updateCartItems(userId, items);
+        return ok();
     }
 
     public Result deleteCart(String userId) {
