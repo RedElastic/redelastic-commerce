@@ -63,33 +63,33 @@ public class CartController extends Controller {
         service.emptyCart(userId);
         return ok();
     }
-}
 
-class DisplayCartItem {
-    private UUID productId;
-    private String name;
-    private String description;
-    private Integer quantity;
-    private Double price;
+    class DisplayCartItem {
+        private UUID productId;
+        private String name;
+        private String description;
+        private Integer quantity;
+        private Double price;
 
-    public DisplayCartItem(UUID productId, String name, String description, Integer quantity, Double price) {
-        this.productId = productId;
-        this.name = name;
-        this.description = description;
-        this.quantity = quantity;
-        this.price = price;
+        public DisplayCartItem(UUID productId, String name, String description, Integer quantity, Double price) {
+            this.productId = productId;
+            this.name = name;
+            this.description = description;
+            this.quantity = quantity;
+            this.price = price;
+        }
+
+        public DisplayCartItem() {}
+
+        public UUID getProductId() { return productId; }
+
+        public String getName() { return name; }
+
+        public Integer getQuantity() { return quantity; }
+
+        public Double getPrice() { return price; }
+
+        public String getDescription() { return description; }
+
     }
-
-    public DisplayCartItem() {}
-
-    public UUID getProductId() { return productId; }
-
-    public String getName() { return name; }
-
-    public Integer getQuantity() { return quantity; }
-
-    public Double getPrice() { return price; }
-
-    public String getDescription() { return description; }
-
 }
