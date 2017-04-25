@@ -1,7 +1,5 @@
 name := """reactive-commerce"""
 
-version := "0.0.1-SNAPSHOT"
-
 lazy val root = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean, SwaggerPlugin)
 
@@ -15,6 +13,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-persistence" % "2.4.17",
   "com.typesafe.akka" %% "akka-cluster-sharding" % "2.4.17",
   "com.typesafe.akka" %% "akka-distributed-data-experimental" % "2.4.17",
+  "com.typesafe.akka" %% "akka-slf4j" % "2.4.17",
   "com.typesafe.akka" %% "akka-persistence-cassandra" % "0.26",
   "de.heikoseeberger" %% "constructr" % "0.17.0",
   "com.lightbend.constructr" %% "constructr-coordination-zookeeper" % "0.3.3",
