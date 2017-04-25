@@ -2,6 +2,7 @@ package contexts.cart.cluster;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.CoordinatedShutdown;
 import akka.actor.Props;
 import akka.cluster.sharding.ClusterSharding;
 import akka.cluster.sharding.ClusterShardingSettings;
@@ -13,7 +14,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
+import play.api.Application;
+import play.api.Play;
+import scala.concurrent.duration.FiniteDuration;
+import sun.misc.Signal;
 
+import javax.inject.Provider;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 
@@ -24,7 +30,7 @@ public class CartClusterService implements CartService {
     private final ActorRef shardRegion;
     private final LoggingAdapter log;
     @Inject
-    public CartClusterService(ActorSystem system) {
+    public CartClusterService(ActorSystem system, Provider<Application> applicationProvider) {
         log = Logging.getLogger(system, this);
 
         ShardRegion.MessageExtractor extractor = new ShardRegion.MessageExtractor() {
@@ -62,6 +68,28 @@ public class CartClusterService implements CartService {
         ClusterShardingSettings settings = ClusterShardingSettings.create(system);
          shardRegion = ClusterSharding.get(system).start("RE-Cart",
                 Props.create(Cart.class), settings, extractor);
+
+        /**
+         * We can grab the signal from play, call coordinated shutdown on akka. That should bring down the house.
+         * This should be refactored toward somewhere more general. Previously you'd need to manually do the graceful exit
+         * But now Akka takes care of it.
+         */
+        Signal.handle(new Signal("TERM"), new sun.misc.SignalHandler() {
+            @Override
+            public void handle(Signal signal) {
+
+                CoordinatedShutdown.get(system).runAll();
+
+                try{
+                    Thread.sleep(10000);
+                }catch(Exception e) {
+                }
+
+                system.scheduler().scheduleOnce(FiniteDuration.apply(10, "seconds"), () -> {
+                    Play.stop(applicationProvider.get());
+                }, system.dispatcher());
+            }
+        });
 
     }
 
