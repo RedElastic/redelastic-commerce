@@ -6,14 +6,27 @@ Welcome to RedElastic Commerce, a reference application that demonstrates a broa
 
 Prior to running the application, you will need to have a Postgres instance running. If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/).
 
-And you'll need to have cassandra:
+And you'll need to have cassandra running:
 
 ```sh
-brew install cassandra
-cassandra
+docker run -p 9042:9042 Cassandra
 ```
 
-After you have Postgres and Cassandra running, you can execute `sbt run` or `activator run`
+And zookeeper for co-ordination
+
+```sh
+docker run -p 2181:2181 --name some-zookeeper --restart always -d zookeeper
+```
+
+After you have Zookeeper and Cassandra running, you can execute `sbt run` or `activator run`
+
+If you want to run a few nodes to see akka cluster in action, you can define different http and netty remoting ports.
+
+```sh
+sbt run -Dhttp.port=9000 -Dakka.remote.netty.tcp.port=0
+sbt run -Dhttp.port=9001 -Dakka.remote.netty.tcp.port=0
+sbt run -Dhttp.port=9002 -Dakka.remote.netty.tcp.port=0
+```
 
 ## Testing the Application
 

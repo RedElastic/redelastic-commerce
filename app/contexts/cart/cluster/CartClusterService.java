@@ -7,13 +7,19 @@ import akka.cluster.Cluster;
 import akka.cluster.sharding.ClusterSharding;
 import akka.cluster.sharding.ClusterShardingSettings;
 import akka.cluster.sharding.ShardRegion;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.pattern.PatternsCS;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
+import play.inject.ApplicationLifecycle;
+import scala.Function0;
+import scala.concurrent.Future;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionStage;
 
 @Singleton
@@ -21,9 +27,11 @@ public class CartClusterService implements CartService {
 
     private final Integer numberOfShards = 100; //don't change after running!!
     private final ActorRef shardRegion;
-
+    private final LoggingAdapter log;
     @Inject
-    public CartClusterService(ActorSystem system) {
+    public CartClusterService(ActorSystem system, ApplicationLifecycle lifecycle) {
+        log = Logging.getLogger(system, this);
+
         ShardRegion.MessageExtractor extractor = new ShardRegion.MessageExtractor() {
             @Override
             public String entityId(Object message) {
@@ -61,18 +69,23 @@ public class CartClusterService implements CartService {
                 Props.create(Cart.class), settings, extractor);
 
         /**
-         * Very basic shutdown hook. Akka 2.5 has improved shutdown semantics but this will do the job for now.
+         * Very basic shutdown hook. Akka 2.5 has improved shutdown semantics. We should be upgrading to it as soon as play is better integrated, or else make cart a service on its own
          */
-        system.registerOnTermination(() -> {
+
+        lifecycle.addStopHook(() -> {
+            log.warning("Executing shutdown hook!");
             shardRegion.tell(ShardRegion.gracefulShutdownInstance(), null);
+
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             }catch (InterruptedException e) {
                 //whatever
             }
 
             Cluster cluster = Cluster.get(system);
             cluster.leave(cluster.selfAddress());
+            log.warning("Left cluster");
+            return null;
         });
     }
 
