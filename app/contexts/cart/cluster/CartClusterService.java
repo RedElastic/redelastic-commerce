@@ -3,7 +3,6 @@ package contexts.cart.cluster;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.cluster.Cluster;
 import akka.cluster.sharding.ClusterSharding;
 import akka.cluster.sharding.ClusterShardingSettings;
 import akka.cluster.sharding.ShardRegion;
@@ -14,12 +13,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import contexts.cart.api.CartItem;
 import contexts.cart.api.CartService;
-import play.inject.ApplicationLifecycle;
-import scala.Function0;
-import scala.concurrent.Future;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionStage;
 
 @Singleton
@@ -29,7 +24,7 @@ public class CartClusterService implements CartService {
     private final ActorRef shardRegion;
     private final LoggingAdapter log;
     @Inject
-    public CartClusterService(ActorSystem system, ApplicationLifecycle lifecycle) {
+    public CartClusterService(ActorSystem system) {
         log = Logging.getLogger(system, this);
 
         ShardRegion.MessageExtractor extractor = new ShardRegion.MessageExtractor() {
@@ -68,25 +63,6 @@ public class CartClusterService implements CartService {
          shardRegion = ClusterSharding.get(system).start("RE-Cart",
                 Props.create(Cart.class), settings, extractor);
 
-        /**
-         * Very basic shutdown hook. Akka 2.5 has improved shutdown semantics. We should be upgrading to it as soon as play is better integrated, or else make cart a service on its own
-         */
-
-        lifecycle.addStopHook(() -> {
-            log.warning("Executing shutdown hook!");
-            shardRegion.tell(ShardRegion.gracefulShutdownInstance(), null);
-
-            try {
-                Thread.sleep(1000);
-            }catch (InterruptedException e) {
-                //whatever
-            }
-
-            Cluster cluster = Cluster.get(system);
-            cluster.leave(cluster.selfAddress());
-            log.warning("Left cluster");
-            return null;
-        });
     }
 
     @Override

@@ -21,17 +21,19 @@ public class ProductEventPubSubActor extends AbstractActor {
     public ProductEventPubSubActor(ActorRef out, WebSocketsEventBus eventBus) {
         this.out = out;
         this.eventBus = eventBus;
+    }
 
-        receive(ReceiveBuilder.
-            match(ProductEvent.class, productEvent -> {
-                Logger.info("received a product update. Sending to websocket!");
-                out.tell(Json.toJson(productEvent), self());
-            }).
-            match(IntNode.class, topic -> {
-                Logger.info("subscribing to topic {}", topic);
-                eventBus.subscribe(self(), topic.asText());
-            }).
-            matchAny(o -> Logger.error("received unknown message " + o.getClass())).build()
-        );
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().
+                match(ProductEvent.class, productEvent -> {
+                    Logger.info("received a product update. Sending to websocket!");
+                    out.tell(Json.toJson(productEvent), self());
+                }).
+                match(IntNode.class, topic -> {
+                    Logger.info("subscribing to topic {}", topic);
+                    eventBus.subscribe(self(), topic.asText());
+                }).
+                matchAny(o -> Logger.error("received unknown message " + o.getClass())).build();
     }
 }

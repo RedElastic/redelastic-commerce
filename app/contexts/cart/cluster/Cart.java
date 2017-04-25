@@ -29,16 +29,16 @@ public class Cart extends AbstractPersistentActor {
     }
 
     @Override
-    public PartialFunction<Object, BoxedUnit> receiveRecover() {
-        return ReceiveBuilder
+    public Receive createReceiveRecover() {
+        return receiveBuilder()
                 .match(EmptyCart.class, msg -> emptyCart())
                 .match(UpdateCart.class, msg -> cartItems = msg.getCartItems())
                 .build();
     }
 
     @Override
-    public PartialFunction<Object, BoxedUnit> receiveCommand() {
-        return ReceiveBuilder
+    public Receive createReceive() {
+        return receiveBuilder()
                 .match(EmptyCart.class, msg ->
                         persist(msg, (EmptyCart m) ->
                         {
