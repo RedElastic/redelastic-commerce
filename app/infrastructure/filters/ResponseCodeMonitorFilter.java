@@ -1,4 +1,4 @@
-package filters;
+package infrastructure.filters;
 
 import akka.stream.Materializer;
 import contexts.monitoring.api.MonitoringService;

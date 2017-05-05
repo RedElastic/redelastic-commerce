@@ -1,4 +1,4 @@
-package websockets;
+package infrastructure.websockets;
 
 import akka.NotUsed;
 import akka.actor.ActorRef;
@@ -76,7 +76,7 @@ public abstract class ActorBackedWebSocket {
     }
 
     /**
-     * Akka Streams for websockets backed by an actor
+     * Akka Streams for infrastructure.websockets backed by an actor
      * We want an actor to back the stream so it can receive updates via the event bus.
      *
      * @param webSocketIn

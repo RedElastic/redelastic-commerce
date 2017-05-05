@@ -46,7 +46,9 @@ Demonstrates how to test bounded contexts directly.
 
 # Composition
 
-The following section explains each major piece of the overall architecture.
+The following section explains each major piece of the overall architecture. The application follows onion architecture in the packaging and dependency.
+
+At the outer level is "controllers" and "infrastructure." These can use code in the "core" domain's interface.
 
 ## Controllers
 
@@ -76,7 +78,7 @@ Shows how to use [Guice](https://github.com/google/guice) to bind all the compon
 
 **Filters.java**
 
-Configured filters that are applied to every request.
+Configured infrastructure.filters that are applied to every request.
 
 ## Services
 
@@ -98,7 +100,7 @@ TODO
 
 TODO
 
-## ec
+## infrastructure.ec
 
 **CustomExecutor.java**
 

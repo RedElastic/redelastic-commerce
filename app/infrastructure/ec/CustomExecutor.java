@@ -1,4 +1,4 @@
-package ec;
+package infrastructure.ec;
 
 import akka.actor.ActorSystem;
 import scala.concurrent.ExecutionContext;

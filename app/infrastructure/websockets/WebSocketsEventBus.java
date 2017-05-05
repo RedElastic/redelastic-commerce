@@ -1,10 +1,10 @@
-package websockets;
+package infrastructure.websockets;
 
 import akka.actor.ActorRef;
 import akka.event.japi.LookupEventBus;
 
 /**
- * Pub/sub mechanism for websockets.
+ * Pub/sub mechanism for infrastructure.websockets.
  * The websocket subscribes to a channel/topic (eg product id)
  * Then any updates to are published on that channel/topic.
  */
@@ -31,7 +31,7 @@ public class WebSocketsEventBus extends LookupEventBus<WebSocketEvent, ActorRef,
     }
 
     /**
-     * Subscribers are actors in our use case so we send a message to the websockets actor that's subscribed to a topic.
+     * Subscribers are actors in our use case so we send a message to the infrastructure.websockets actor that's subscribed to a topic.
      * @param event a ProductEvent
      * @param subscriber the websocket ActorRef
      */

@@ -11,8 +11,8 @@ import contexts.monitoring.api.MonitoringService;
 import contexts.monitoring.stub.MonitoringServiceStub;
 import contexts.product.api.ProductService;
 import contexts.product.stub.ProductServiceStub;
-import services.ApplicationTimer;
-import services.GracefulShutdown;
+import infrastructure.ApplicationTimer;
+import infrastructure.GracefulShutdown;
 
 /**
  * This class is a Guice module that tells Guice how to bind several

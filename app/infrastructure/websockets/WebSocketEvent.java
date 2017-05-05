@@ -1,4 +1,4 @@
-package websockets;
+package infrastructure.websockets;
 
 public interface WebSocketEvent {
     String getChannel();

@@ -1,4 +1,4 @@
-package services;
+package infrastructure;
 
 /**
  * Todo demonstrate how to integrate into eg dc/os w/ cluster aware healthcheck.

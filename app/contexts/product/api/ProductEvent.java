@@ -1,6 +1,6 @@
 package contexts.product.api;
 
-import websockets.WebSocketEvent;
+import infrastructure.websockets.WebSocketEvent;
 
 import java.util.Optional;
 

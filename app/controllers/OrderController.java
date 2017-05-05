@@ -8,12 +8,11 @@ import contexts.order.api.OrderService;
 import contexts.order.api.OrderedItem;
 import contexts.order.api.ShippingInfo;
 import contexts.product.api.ProductService;
-import play.Logger;
 import play.libs.Json;
 import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
-import websockets.WebSocketsEventBus;
+import infrastructure.websockets.WebSocketsEventBus;
 
 import java.util.ArrayList;
 import java.util.List;

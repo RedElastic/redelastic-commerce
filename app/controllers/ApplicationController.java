@@ -1,10 +1,10 @@
 package controllers;
 
 import com.google.inject.Inject;
-import ec.MemoryHungryExecutor;
+import infrastructure.ec.MemoryHungryExecutor;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.LongRunningComputation;
+import infrastructure.LongRunningComputation;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;

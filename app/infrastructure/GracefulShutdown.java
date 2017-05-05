@@ -1,4 +1,4 @@
-package services;
+package infrastructure;
 
 import akka.actor.ActorSystem;
 import akka.actor.CoordinatedShutdown;
