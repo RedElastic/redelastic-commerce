@@ -3,7 +3,7 @@ package infrastructure.websockets;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import com.fasterxml.jackson.databind.node.IntNode;
-import contexts.product.api.ProductEvent;
+import core.product.api.ProductEvent;
 import play.Logger;
 import play.libs.Json;
 

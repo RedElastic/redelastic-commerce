@@ -1,16 +1,16 @@
 import com.google.inject.AbstractModule;
 import java.time.Clock;
 
-import contexts.cart.api.CartService;
-import contexts.cart.cluster.CartClusterService;
-import contexts.order.api.OrderService;
-import contexts.order.stub.OrderServiceLive;
+import core.cart.api.CartService;
+import core.cart.cluster.CartClusterService;
+import core.order.api.OrderService;
+import core.order.stub.OrderServiceLive;
 import play.libs.akka.AkkaGuiceSupport;
 
-import contexts.monitoring.api.MonitoringService;
-import contexts.monitoring.stub.MonitoringServiceStub;
-import contexts.product.api.ProductService;
-import contexts.product.stub.ProductServiceStub;
+import core.monitoring.api.MonitoringService;
+import core.monitoring.stub.MonitoringServiceStub;
+import core.product.api.ProductService;
+import core.product.stub.ProductServiceStub;
 import infrastructure.ApplicationTimer;
 import infrastructure.GracefulShutdown;
 

@@ -2,10 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
-import contexts.cart.api.CartItem;
-import contexts.cart.api.CartService;
-import contexts.product.api.Product;
-import contexts.product.api.ProductService;
+import core.cart.api.CartItem;
+import core.cart.api.CartService;
+import core.product.api.Product;
+import core.product.api.ProductService;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;

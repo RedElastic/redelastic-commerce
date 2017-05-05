@@ -1,7 +1,7 @@
 package infrastructure.filters;
 
 import akka.stream.Materializer;
-import contexts.monitoring.api.MonitoringService;
+import core.monitoring.api.MonitoringService;
 import play.mvc.Filter;
 import play.mvc.Http;
 import play.mvc.Result;
