@@ -12,6 +12,7 @@ import contexts.monitoring.stub.MonitoringServiceStub;
 import contexts.product.api.ProductService;
 import contexts.product.stub.ProductServiceStub;
 import services.ApplicationTimer;
+import services.GracefulShutdown;
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -29,6 +30,7 @@ public class Module extends AbstractModule implements AkkaGuiceSupport {
     public void configure() {
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
         bind(ApplicationTimer.class).asEagerSingleton();
+        bind(GracefulShutdown.class).asEagerSingleton();
         bind(ProductService.class).to(ProductServiceStub.class);
         bind(MonitoringService.class).to(MonitoringServiceStub.class);
         bind(OrderService.class).to(OrderServiceLive.class);

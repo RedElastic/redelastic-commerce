@@ -26,7 +26,7 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class CartClusterService implements CartService {
 
-    private final Integer numberOfShards = 100; //don't change after running!!
+    private final Integer numberOfShards = 100; //don't change after running!! Hardcoded so it's NOT configurable.
     private final ActorRef shardRegion;
     private final LoggingAdapter log;
     @Inject
@@ -68,28 +68,6 @@ public class CartClusterService implements CartService {
         ClusterShardingSettings settings = ClusterShardingSettings.create(system);
          shardRegion = ClusterSharding.get(system).start("RE-Cart",
                 Props.create(Cart.class), settings, extractor);
-
-        /**
-         * We can grab the signal from play, call coordinated shutdown on akka. That should bring down the house.
-         * This should be refactored toward somewhere more general. Previously you'd need to manually do the graceful exit
-         * But now Akka takes care of it.
-         */
-        Signal.handle(new Signal("TERM"), new sun.misc.SignalHandler() {
-            @Override
-            public void handle(Signal signal) {
-
-                CoordinatedShutdown.get(system).runAll();
-
-                try{
-                    Thread.sleep(10000);
-                }catch(Exception e) {
-                }
-
-                system.scheduler().scheduleOnce(FiniteDuration.apply(10, "seconds"), () -> {
-                    Play.stop(applicationProvider.get());
-                }, system.dispatcher());
-            }
-        });
 
     }
 
