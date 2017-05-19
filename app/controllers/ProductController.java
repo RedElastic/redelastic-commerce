@@ -2,8 +2,8 @@ package controllers;
 
 import com.google.inject.Inject;
 import akka.actor.ActorSystem;
-import contexts.product.api.Product;
-import contexts.product.api.ProductService;
+import core.product.api.Product;
+import core.product.api.ProductService;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
