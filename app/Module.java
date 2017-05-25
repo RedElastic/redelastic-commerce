@@ -7,8 +7,8 @@ import core.order.api.OrderService;
 import core.order.stub.OrderServiceLive;
 import play.libs.akka.AkkaGuiceSupport;
 
-import core.monitoring.api.MonitoringService;
-import core.monitoring.stub.MonitoringServiceStub;
+import infrastructure.monitoring.api.MonitoringService;
+import infrastructure.monitoring.stub.MonitoringServiceStub;
 import core.product.api.ProductService;
 import core.product.stub.ProductServiceStub;
 import infrastructure.ApplicationTimer;

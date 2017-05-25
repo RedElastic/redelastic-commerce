@@ -10,6 +10,7 @@ import play.libs.Json;
 /**
  * Example of an actor that subscribes to a topic for pub/sub from an event bus and publishes
  * any messages to an actor in the WebSocket stream.
+ * TODO this should be refactored to follow onion architecture to prevent corruption that would make extracting to a microservice difficult.
  */
 
 public class ProductEventPubSubActor extends AbstractActor {

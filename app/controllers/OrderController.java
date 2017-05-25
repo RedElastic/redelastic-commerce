@@ -13,8 +13,8 @@ import play.libs.concurrent.HttpExecutionContext;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
+import javaslang.collection.List;
+
 import java.util.UUID;
 
 public class OrderController extends Controller {
@@ -34,25 +34,25 @@ public class OrderController extends Controller {
     public Result checkout() {
         JsonNode json = request().body().asJson();
         ShippingInfo shippingInfo = Json.fromJson(json.findPath("shippingInfo"), ShippingInfo.class);
-        List<OrderedItem> items = new ArrayList<>();
+        List<OrderedItem> items = List.empty();
         for (JsonNode node : json.withArray("items")) {
             OrderedItem item = new OrderedItem(
                 UUID.fromString(node.get("productId").asText()),
                 node.get("quantity").asInt(),
                 node.get("price").asDouble(),
                 node.get("subtotal").asDouble());
-            items.add(item);
+            items = items.append(item);
         }
-        return ok(Json.toJson(orderService.placeOrder(shippingInfo, items)));
+        return ok(Json.toJson(orderService.placeOrder(shippingInfo, items.toJavaList())));
     }
 
     public Result findOrder(String orderId) {
         Order order = orderService.findOrder(UUID.fromString(orderId));
 
-        List<DisplayOrderItem> displayItems = new ArrayList<>();
+        List<DisplayOrderItem> displayItems = List.empty();
 
         for (OrderedItem item : order.getItems()) {
-            displayItems.add(new DisplayOrderItem(
+            displayItems = displayItems.append(new DisplayOrderItem(
                                     item.getProductId(),
                                     productService.getProduct(item.getProductId()).getName(),
                                     item.getQuantity(),

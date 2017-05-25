@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-distributed-data" % "2.5.0",
   "com.typesafe.akka" %% "akka-slf4j" % "2.5.0",
   "com.typesafe.akka" %% "akka-persistence-cassandra" % "0.26",
-  "de.heikoseeberger" %% "constructr" % "0.17.0",
+  "de.heikoseeberger" %% "constructr" % "0.17.0", //TODO I fixed a bug in this version that can cause islands if fixed ports are used - I need to get heiko to release it
   "com.lightbend.constructr" %% "constructr-coordination-zookeeper" % "0.3.3",
   "io.javaslang" % "javaslang" % "2.0.3",
   "org.webjars" % "swagger-ui" % "2.2.0"
@@ -24,6 +24,8 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 swaggerDomainNameSpaces := Seq("models")
+
+javaOptions in Test += "-Dconfig.file=conf/application.test.conf"
 
 //Docker config
 

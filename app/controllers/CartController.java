@@ -10,8 +10,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.ArrayList;
-import java.util.List;
+import javaslang.collection.List;
+
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
@@ -27,11 +27,11 @@ public class CartController extends Controller {
 
     public CompletionStage<Result> getCart(String userId) {
         return service.getCartContents(userId).thenApply(cart -> {
-            List<DisplayCartItem> items = new ArrayList<>();
+            List<DisplayCartItem> items = List.empty();
 
             for (CartItem item : cart) {
                 Product product = productService.getProduct(item.getProductId());
-                items.add(new DisplayCartItem(
+                items = items.append(new DisplayCartItem(
                     item.getProductId(),
                     product.getName(),
                     product.getDescription(),
@@ -46,12 +46,12 @@ public class CartController extends Controller {
     public Result updateCart() {
         JsonNode json = request().body().asJson();
         String userId = json.get("userId").asText();
-        List<CartItem> cartItems = new ArrayList<>();
+        List<CartItem> cartItems = List.empty();
         JsonNode nodes = json.get("items");
 
         for (JsonNode node : nodes) {
             CartItem item = new CartItem(UUID.fromString(node.get("productId").asText()), node.get("quantity").asInt(), node.get("price").asDouble());
-            cartItems.add(item);
+            cartItems = cartItems.append(item);
         }
         service.updateCartItems(userId, cartItems);
         return ok();
