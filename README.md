@@ -6,19 +6,19 @@ Welcome to RedElastic Commerce, a reference application that demonstrates a broa
 
 Prior to running the application, you will need to have a Postgres instance running. If you're using a Mac or Linux, you can get up and running in minutes with [postgres.app](http://postgresapp.com/).
 
-And you'll need to have cassandra running:
+And you'll need to have Cassandra running:
 
 ```sh
 docker run -p 9042:9042 Cassandra
 ```
 
-And zookeeper for co-ordination
+And ZooKeeper for co-ordination
 
 ```sh
 docker run -p 2181:2181 --name some-zookeeper --restart always -d zookeeper
 ```
 
-After you have Zookeeper and Cassandra running, you can execute `sbt run`
+After you have ZooKeeper and Cassandra running, you can execute `sbt run`
 
 If you want to run a few nodes to see akka cluster in action, you can define different http and netty remoting ports.
 
@@ -28,7 +28,7 @@ sbt run -Dhttp.port=9001 -Dakka.remote.netty.tcp.port=0
 sbt run -Dhttp.port=9002 -Dakka.remote.netty.tcp.port=0
 ```
 
-The project uses constructr so no seed node configuration is required - zookeeper will be used to discover any running clusters.
+The project uses constructr so no seed node configuration is required - ZooKeeper will be used to discover any running clusters.
 
 ## Testing the Application
 
@@ -40,7 +40,7 @@ To execute the tests: `sbt test`
 
 The following section explains each major piece of the overall architecture. The application has started to be factored to onion architecture in the packaging approaches to help reduce "corruption" and allow us to migrate to microservices easily as the project grows.
 
-At the outer level is "controllers" and "infrastructure." These can use code in the "core" domain (its application/service layer in the api package).
+At the outer level is "controllers" and "infrastructure." These can use code in the "core" domain (its application/service layer in the API package).
 
 ## root package
 
