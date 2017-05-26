@@ -8,13 +8,22 @@ import core.cart.api.CartItem;
 import scala.concurrent.duration.Duration;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+
+import javaslang.collection.List;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+ * This is technically CommandSourcing because we persist the commands themselves.
+ * Separate events should be stored instead ("CartEmpties", "CartUpdated")
+ * Otherwise side-effects would be re-applied. There are no side effects outside of this class however.
+ * TODO switch to event sourcing model
+ */
+
 public class Cart extends AbstractPersistentActor {
 
-    List<CartItem> cartItems = new ArrayList<>();
+    List<CartItem> cartItems = List.empty(); //We use an immutable list with a non-final reference so we can send it at any time
 
     public Cart() {
         System.out.println("starting a cart! " + self().path());
@@ -42,22 +51,25 @@ public class Cart extends AbstractPersistentActor {
                             emptyCart();
                             sender().tell("done", null);
                         }))
-                .match(UpdateCart.class, msg ->
-                        persist(msg, (UpdateCart m) ->
-                        {
-                            setCartItems(m.getCartItems());
-                            sender().tell("done", null);
-                        }))
-                .match(GetContents.class, msg ->
-                        sender().tell(cartItems, self())
-                )
+                .match(UpdateCart.class, msg -> {
+                    persist(msg, (UpdateCart m) ->
+                    {
+                        setCartItems(m.getCartItems());
+                        sender().tell("done", null);
+                    });
+                })
+
+                .match(GetContents.class, msg -> {
+                    sender().tell(cartItems, self());
+                })
                 .matchEquals(ReceiveTimeout.getInstance(), msg -> passivate())
+                .matchAny( msg -> System.out.println("received unknown message: " + msg))
                 .build();
     }
 
 
     private void emptyCart() {
-        this.cartItems = new ArrayList<>();
+        this.cartItems = List.empty();
     }
 
     private void setCartItems(List<CartItem> cartItems) {
@@ -71,6 +83,9 @@ public class Cart extends AbstractPersistentActor {
         context().setReceiveTimeout(Duration.create(120, SECONDS));
     }
 
+    /**
+     * This will sleep the actor until it needs to be re-awoken.
+     */
     private void passivate() {
         getContext().parent().tell(
                 new ShardRegion.Passivate(PoisonPill.getInstance()), self());

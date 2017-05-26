@@ -1,6 +1,6 @@
-package core.monitoring.stub;
+package infrastructure.monitoring.stub;
 
-import core.monitoring.api.MonitoringService;
+import infrastructure.monitoring.api.MonitoringService;
 
 import java.util.HashMap;
 import java.util.Map;

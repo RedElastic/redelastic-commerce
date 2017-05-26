@@ -1,6 +1,6 @@
 package core.cart.api;
 
-import java.util.List;
+import javaslang.collection.List;
 import java.util.concurrent.CompletionStage;
 
 public interface CartService {

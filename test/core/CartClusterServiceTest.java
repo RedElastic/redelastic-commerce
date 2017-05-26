@@ -1,34 +1,40 @@
 package core;
 
 import akka.actor.ActorSystem;
-import core.cart.cluster.CartClusterService;
 import core.cart.api.CartItem;
-import javaslang.collection.HashSet;
-import javaslang.collection.Set;
+import core.cart.cluster.CartClusterService;
+import javaslang.collection.List;
 import org.junit.Test;
+import play.Application;
+import play.inject.Injector;
+import play.inject.guice.GuiceApplicationBuilder;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * It might be better to see if cassandra can be included in the test context instead of relying on it externally
+ */
 public class CartClusterServiceTest {
-    ActorSystem sys = ActorSystem.apply("application");
+    Application application = new GuiceApplicationBuilder().build();
+    Injector injector = application.injector();
+    ActorSystem sys = injector.instanceOf(ActorSystem.class);
+
     CartClusterService service = new CartClusterService(sys);
 
     @Test
     public void itShouldAddAndRetrieveContent() throws Exception{
-
-        Thread.sleep(30000); //Wait for cluster.
-
         CartItem item = new CartItem(UUID.randomUUID(), 5, 10.50);
 
-        String userId = "userId";
-        Set<CartItem> contents = HashSet.of();
-        ((CompletableFuture)service.updateCartItems(userId, contents)).get(100, TimeUnit.SECONDS); //it takes forever to start cluster...
+        String userId = "userId-" + UUID.randomUUID(); //don't want to collide with existing test data
+        List<CartItem> contents = List.of(item);
 
-        Set<CartItem> contents1 = (Set<CartItem> )((CompletableFuture) service.getCartContents(userId)).get();
+        service.updateCartItems(userId, contents).toCompletableFuture().get();
+        CompletableFuture<List<CartItem>> result = service.getCartContents(userId).toCompletableFuture();
 
-        assert(contents1.contains(item));
+        List<CartItem> resultContents = result.toCompletableFuture().get();
+        assert(resultContents.size() == 1);
+        assert(resultContents.get(0) == item);
     }
 
 }

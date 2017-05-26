@@ -2,7 +2,7 @@ package core.cart.cluster;
 
 import core.cart.api.CartItem;
 
-import java.util.List;
+import javaslang.collection.List;
 
 public class UpdateCart implements CartMessage {
     private static final long serialVersionUID = 1L;
